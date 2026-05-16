@@ -1,0 +1,875 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Jersey Round Table 192 — Do More</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""/>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&amp;family=Archivo:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<style>
+  :root{
+    --black:#0a0a0a;
+    --ink:#141414;
+    --cream:#f4efe6;
+    --paper:#faf6ed;
+    --yellow:#ffc626;
+    --yellow-deep:#e9a800;
+    --red:#c8362b;
+    --rule:rgba(10,10,10,.16);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font-family:'Archivo', system-ui, sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  .display{font-family:'Archivo Black', 'Archivo', sans-serif;letter-spacing:-.02em;line-height:.92}
+  .mono{font-family:'JetBrains Mono', monospace;letter-spacing:.02em}
+  .wrap{max-width:1320px;margin:0 auto;padding:0 32px}
+  .rule{height:1px;background:var(--rule);width:100%}
+  .rule-thick{height:2px;background:var(--ink)}
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:var(--paper);
+    border-bottom:1px solid var(--rule);
+    transition:background .2s,border-color .2s;
+  }
+  header.nav.scrolled{background:rgba(250,246,237,.94);backdrop-filter:blur(10px)}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;max-width:1320px;margin:0 auto;gap:32px}
+  .brand{display:flex;align-items:center;gap:14px;flex-shrink:0}
+  .brand img{height:44px;width:auto}
+  .brand-text{font-family:'Archivo Black';font-size:13px;line-height:1.05;letter-spacing:-.01em}
+  .brand-text small{display:block;font-family:'JetBrains Mono';font-size:10px;font-weight:400;letter-spacing:.12em;color:#666;margin-top:2px}
+  nav ul{display:flex;list-style:none;gap:28px;margin:0;padding:0;align-items:center}
+  nav a{font-size:13px;font-weight:600;letter-spacing:.02em;position:relative;padding:6px 0}
+  nav a.active::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--ink)}
+  nav a:hover{color:var(--yellow-deep)}
+  .cta{background:var(--ink);color:var(--paper);padding:12px 18px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:transform .15s}
+  .cta:hover{transform:translateY(-1px)}
+  .cta-yellow{background:var(--yellow);color:var(--ink)}
+  .burger{display:none;background:none;border:1px solid var(--ink);padding:10px 12px;cursor:pointer;font-size:14px}
+  /* ---------- HERO ---------- */
+  .hero{position:relative;padding:48px 0 96px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end}
+  .hero-meta{display:flex;flex-direction:column;gap:18px}
+  .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);padding:6px 12px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;width:max-content;background:var(--paper)}
+  .pill .dot{width:8px;height:8px;background:var(--yellow);border-radius:50%}
+  .hero h1{
+    font-family:'Archivo Black';
+    font-size:clamp(56px, 11vw, 168px);
+    line-height:.86;letter-spacing:-.035em;
+    margin:0;color:var(--ink);
+  }
+  .hero h1 .y{color:var(--yellow-deep);font-style:italic;display:inline-block}
+  .hero h1 .stroke{-webkit-text-stroke:2px var(--ink);color:transparent;font-style:italic}
+  .hero-side{display:flex;flex-direction:column;gap:24px;padding-bottom:8px}
+  .hero-side p{font-size:18px;line-height:1.45;margin:0;max-width:440px}
+  .hero-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+  .stat{padding:18px 16px;border-right:1px solid var(--rule)}
+  .stat:last-child{border-right:none}
+  .stat .n{font-family:'Archivo Black';font-size:36px;line-height:1;letter-spacing:-.02em}
+  .stat .l{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.1em;margin-top:6px;color:#555;text-transform:uppercase}
+  .hero-actions{display:flex;gap:12px;margin-top:8px}
+  .hero-strip{margin-top:64px;overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent)}
+  .hero-track{display:flex;gap:16px;width:max-content;animation:hero-scroll 150s linear infinite}
+  .hero-track:hover{animation-play-state:paused}
+  .h-img{flex:0 0 auto;width:420px;height:300px;background:#1a1a1a;overflow:hidden;position:relative}
+  .h-img img{width:100%;height:100%;object-fit:cover;display:block}
+  @keyframes hero-scroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 8px))}}
+  /* wheel */
+  .wheel-deco{position:absolute;top:48px;right:-80px;width:340px;height:340px;animation:spin 60s linear infinite;pointer-events:none;opacity:.92;border-radius:50%;background:#fff;overflow:hidden}
+  .wheel-deco img{width:100%;height:100%;display:block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  /* ---------- MARQUEE ---------- */
+  .marquee{background:var(--ink);color:var(--paper);padding:22px 0;overflow:hidden;border-top:2px solid var(--ink)}
+  .marquee-track{display:flex;gap:48px;white-space:nowrap;animation:scroll 30s linear infinite;font-family:'Archivo Black';font-size:32px;letter-spacing:-.01em}
+  .marquee-track .y{color:var(--yellow)}
+  .marquee-track .dot{display:inline-flex;align-items:center;color:var(--yellow)}
+  @keyframes scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  /* ---------- SECTIONS ---------- */
+  section{padding:120px 0;position:relative}
+  section.dark{background:var(--ink);color:var(--paper)}
+  section.dark .pill{border-color:var(--paper);background:var(--ink);color:var(--paper)}
+  .section-head{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:end;margin-bottom:64px}
+  .section-num{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.15em;color:#888;text-transform:uppercase}
+  section.dark .section-num{color:#999}
+  .section-title{font-family:'Archivo Black';font-size:clamp(48px, 7vw, 96px);line-height:.9;letter-spacing:-.03em;margin:0}
+  .section-kicker{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.15em;color:#666;text-transform:uppercase;margin-bottom:12px}
+  /* ---------- WHAT WE DO ---------- */
+  .pillars{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--ink)}
+  .pillar{padding:32px 24px 40px;border-right:1px solid var(--rule);border-bottom:2px solid var(--ink);position:relative;transition:background .2s}
+  .pillar:last-child{border-right:none}
+  .pillar:hover{background:var(--cream)}
+  .pillar .icon{width:42px;height:42px;background:var(--yellow);display:flex;align-items:center;justify-content:center;font-family:'Archivo Black';font-size:18px;margin-bottom:24px}
+  .pillar h3{font-family:'Archivo Black';font-size:24px;line-height:1;letter-spacing:-.02em;margin:0 0 14px}
+  .pillar p{font-size:14px;line-height:1.5;margin:0;color:#444}
+  .pillar .num{position:absolute;top:24px;right:24px;font-family:'JetBrains Mono';font-size:11px;color:#999}
+  /* ---------- HISTORY ---------- */
+  .history-grid{display:grid;grid-template-columns:1fr;gap:80px;align-items:start}
+  .history-text p{font-size:17px;line-height:1.55;margin:0 0 18px;max-width:520px}
+  .timeline{border-left:2px solid var(--yellow);padding-left:28px}
+  .tl-item{margin-bottom:36px;position:relative}
+  .tl-item::before{content:"";position:absolute;left:-36px;top:6px;width:16px;height:16px;background:var(--paper);border:3px solid var(--yellow);border-radius:50%}
+  .tl-year{font-family:'Archivo Black';font-size:32px;line-height:1;letter-spacing:-.02em;color:var(--paper)}
+  .tl-title{font-family:'Archivo';font-weight:700;font-size:16px;margin:8px 0 4px;color:var(--paper)}
+  .tl-body{font-size:14px;color:#bbb;line-height:1.5;margin:0}
+  /* ---------- EVENTS ---------- */
+  .events-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;flex-wrap:wrap;gap:16px}
+  .filter-tabs{display:flex;gap:0;border:1px solid var(--ink)}
+  .filter-tabs button{background:transparent;border:none;padding:10px 18px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-right:1px solid var(--ink);font-weight:500}
+  .filter-tabs button:last-child{border-right:none}
+  .filter-tabs button.on{background:var(--ink);color:var(--paper)}
+  .events-list{border-top:2px solid var(--ink)}
+  .event-row{display:grid;grid-template-columns:120px 1fr 1.6fr 140px 100px;gap:32px;padding:28px 0;border-bottom:1px solid var(--rule);align-items:center;transition:background .15s;cursor:pointer}
+  .event-row:hover{background:var(--cream);padding-left:12px;padding-right:12px}
+  .event-date{font-family:'Archivo Black';font-size:28px;line-height:1;letter-spacing:-.02em}
+  .event-date small{display:block;font-family:'JetBrains Mono';font-size:10px;font-weight:400;letter-spacing:.12em;color:#888;margin-top:6px;text-transform:uppercase}
+  .event-title{font-family:'Archivo';font-weight:700;font-size:20px;line-height:1.15;letter-spacing:-.01em}
+  .event-title .tag{display:inline-block;font-family:'JetBrains Mono';font-size:10px;font-weight:500;letter-spacing:.1em;background:var(--yellow);color:var(--ink);padding:3px 8px;margin-left:8px;text-transform:uppercase;vertical-align:middle}
+  .event-body{font-size:14px;color:#555;line-height:1.5}
+  .event-loc{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.05em;color:#555}
+  .event-arrow{font-family:'Archivo Black';font-size:24px;text-align:right;color:#bbb;transition:color .15s,transform .15s}
+  .event-row:hover .event-arrow{color:var(--ink);transform:translateX(4px)}
+  /* ---------- CHARITY BALL ---------- */
+  .ball{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:center}
+  .ball-card{background:var(--yellow);color:var(--ink);padding:48px;position:relative;border:2px solid var(--ink)}
+  .ball-card::after{content:"";position:absolute;inset:8px;border:1px dashed var(--ink);pointer-events:none}
+  .ball-card .mono{font-size:11px;letter-spacing:.15em;text-transform:uppercase}
+  .ball-card h3{font-family:'Archivo Black';font-size:72px;line-height:.9;letter-spacing:-.03em;margin:16px 0 24px}
+  .ball-card .meta{display:grid;grid-template-columns:1fr 1fr;gap:8px;border-top:2px solid var(--ink);padding-top:20px;margin-top:24px}
+  .ball-card .meta div{font-size:14px}
+  .ball-card .meta strong{font-family:'Archivo Black';display:block;font-size:18px;letter-spacing:-.01em}
+  .ball-figures{display:flex;flex-direction:column;gap:24px}
+  .figure-row{border-bottom:1px solid #333;padding-bottom:24px}
+  .figure-row:last-child{border-bottom:none}
+  .figure-n{font-family:'Archivo Black';font-size:84px;line-height:.9;letter-spacing:-.03em;color:var(--yellow)}
+  .figure-l{font-size:15px;color:#ccc;margin-top:8px;line-height:1.4}
+  /* ---------- GALLERY CAROUSEL ---------- */
+  .gallery-wrap{position:relative;margin:0 -32px;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scrollbar-width:none;-webkit-mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent)}
+  .gallery-wrap::-webkit-scrollbar{display:none}
+  .gallery-track{display:flex;gap:16px;padding:4px 32px;width:max-content}
+  .g-tile{flex:0 0 auto;width:480px;height:340px;background:#1a1a1a;overflow:hidden;cursor:pointer;position:relative;transition:transform .25s}
+  .g-tile.tall{width:280px}
+  .g-tile.wide{width:620px}
+  .g-tile:hover{transform:translateY(-4px)}
+  .g-tile img{width:100%;height:100%;object-fit:cover;display:block}
+  .g-tile .overlay{position:absolute;left:0;right:0;bottom:0;padding:16px 18px 14px;color:#fff;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.05em;background:linear-gradient(to top,rgba(0,0,0,.8),transparent);opacity:0;transition:opacity .2s}
+  .g-tile:hover .overlay{opacity:1}
+  .gallery-controls{display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:24px;flex-wrap:wrap}
+  .gallery-hint{font-family:'JetBrains Mono';font-size:11px;color:#888;letter-spacing:.15em;text-transform:uppercase}
+  .gallery-arrows{display:flex;gap:8px}
+  .gallery-arrows button{width:48px;height:48px;border:1px solid var(--ink);background:var(--paper);font-family:'Archivo Black';font-size:20px;cursor:pointer;transition:background .15s,color .15s;line-height:1;padding:0}
+  .gallery-arrows button:hover{background:var(--ink);color:var(--paper)}
+  /* lightbox */
+  .lightbox{position:fixed;inset:0;background:rgba(10,10,10,.95);z-index:200;display:none;align-items:center;justify-content:center;padding:60px}
+  .lightbox.on{display:flex}
+  .lightbox img{max-width:90vw;max-height:80vh;object-fit:contain}
+  .lightbox .lb-caption{position:absolute;bottom:30px;left:0;right:0;text-align:center;color:#fff;font-family:'JetBrains Mono';font-size:12px;letter-spacing:.08em}
+  .lightbox .lb-close{position:absolute;top:30px;right:30px;background:none;border:1px solid #fff;color:#fff;padding:12px 16px;font-family:'JetBrains Mono';font-size:11px;cursor:pointer;letter-spacing:.1em}
+  .lightbox .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:48px;cursor:pointer;padding:20px;font-family:'Archivo Black'}
+  .lb-prev{left:20px}
+  .lb-next{right:20px}
+  /* ---------- JOIN ---------- */
+  .join{display:grid;grid-template-columns:1.2fr 1fr;gap:64px;align-items:start}
+  .join h2.section-title{margin-bottom:24px}
+  .join-criteria{display:flex;flex-direction:column;gap:16px;margin:32px 0}
+  .crit{display:flex;gap:18px;padding:18px 0;border-top:1px solid var(--rule)}
+  .crit:last-child{border-bottom:1px solid var(--rule)}
+  .crit .n{font-family:'JetBrains Mono';font-size:12px;color:#888;letter-spacing:.1em;flex-shrink:0;width:30px}
+  .crit h4{font-family:'Archivo';font-weight:700;font-size:17px;margin:0 0 4px}
+  .crit p{margin:0;font-size:14px;color:#555;line-height:1.5}
+  /* form */
+  .form-card{background:var(--ink);color:var(--paper);padding:40px}
+  .form-card h3{font-family:'Archivo Black';font-size:32px;letter-spacing:-.02em;margin:0 0 8px}
+  .form-card .lede{font-size:14px;color:#bbb;margin:0 0 28px;line-height:1.5}
+  .field{margin-bottom:18px}
+  .field label{display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#aaa;margin-bottom:6px}
+  .field input,.field textarea,.field select{width:100%;background:transparent;border:none;border-bottom:1px solid #444;color:var(--paper);font-family:'Archivo';font-size:15px;padding:8px 0;outline:none;transition:border-color .15s}
+  .field input:focus,.field textarea:focus,.field select:focus{border-bottom-color:var(--yellow)}
+  .field textarea{resize:vertical;min-height:80px;font-family:inherit}
+  .field select{background:var(--ink)}
+  .form-submit{width:100%;background:var(--yellow);color:var(--ink);border:none;padding:16px;font-family:'Archivo Black';font-size:14px;letter-spacing:.05em;cursor:pointer;text-transform:uppercase;margin-top:12px;transition:background .15s}
+  .form-submit:hover{background:#fff}
+  .form-success{padding:24px;background:rgba(255,198,38,.12);border-left:3px solid var(--yellow);font-size:14px;line-height:1.5}
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{background:var(--ink);color:var(--paper);padding:80px 0 32px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:64px}
+  .foot-brand img{height:72px;width:auto;margin-bottom:24px;filter:invert(0)}
+  .foot-brand p{max-width:340px;font-size:14px;color:#bbb;line-height:1.6}
+  .foot-col h5{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.15em;color:#888;text-transform:uppercase;margin:0 0 16px}
+  .foot-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+  .foot-col a{font-size:14px;color:var(--paper)}
+  .foot-col a:hover{color:var(--yellow)}
+  .foot-bottom{border-top:1px solid #333;padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.05em;color:#888}
+  /* ---------- MOBILE ---------- */
+  @media (max-width:900px){
+    .wrap{padding:0 20px}
+    .nav-inner{padding:14px 20px}
+    nav ul{display:none}
+    nav.open ul{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--paper);padding:24px;gap:18px;border-bottom:2px solid var(--ink);align-items:flex-start}
+    .burger{display:inline-flex}
+    .hero{padding:32px 0 56px}
+    .hero-grid{grid-template-columns:1fr;gap:24px}
+    .hero h1{font-size:64px}
+    .hero-strip{grid-template-columns:1fr 1fr;margin-top:32px}
+    .hero-stats{grid-template-columns:1fr 1fr 1fr}
+    .stat .n{font-size:24px}
+    section{padding:64px 0}
+    .section-head{grid-template-columns:1fr;gap:16px;margin-bottom:32px}
+    .section-title{font-size:42px}
+    .pillars{grid-template-columns:1fr 1fr}
+    .pillar{border-bottom:1px solid var(--rule)}
+    .history-grid{grid-template-columns:1fr;gap:40px}
+    .event-row{grid-template-columns:80px 1fr 60px;gap:16px}
+    .event-body,.event-loc{display:none}
+    .event-title{font-size:16px}
+    .event-date{font-size:22px}
+    .ball{grid-template-columns:1fr;gap:32px}
+    .ball-card{padding:32px}
+    .ball-card h3{font-size:48px}
+    .figure-n{font-size:60px}
+    .gallery-wrap{margin:0 -20px}
+    .gallery-track{padding:0 20px}
+    .g-tile{width:280px;height:220px}
+    .g-tile.tall{width:200px}
+    .g-tile.wide{width:360px}
+    .join{grid-template-columns:1fr;gap:40px}
+    .foot-grid{grid-template-columns:1fr 1fr;gap:32px}
+    .marquee-track{font-size:22px}
+    .filter-tabs button{padding:8px 12px;font-size:10px}
+    .events-toolbar{flex-direction:column;align-items:stretch}
+  }
+</style>
+<script type='text/javascript' nonce='QOQTVI0IXtMm7s1M1skufg==' src='https://claude.ai/rXnxHbWMMy43ggxNphlrzInuXJZAvTcuKu_9L-DV3_dtBzdqbBQfclws4bbbKHbTdAO6PXqZs-cJV7LK105CCyCzP9Cxz1ZyTAJPxn-YCmmefwhiA77DO5IcMvN-dOMhiS6xBuo-6h4n7xsQnPYSogI217arIy-KlKXowhHTWSG2It69DDOGEZMHg4Sc3IJLtktiTPUMiXPHtz8GyfW3eAdxpqZlIPZW4OF9GvxvvKLFgm7lJFCH4vbAQ7CoNIfszGHUVEKYet896rAM46oFSiCrGK0digHRKmEmGPbAxT5oQQZk_D8-WOT9zrga5I6Kk9oKVGFxw3LIxPT8qNS3Nq9mWG6HEOZ6W82SEixjMa5F8h6TI5s7R8mv8BX1iBXiGFjbvBlXBG1gNbDBvfDM5SihwpBpqFWczIljhL9AZlxWgkMxnbneYjCJJlp1P2pgHQFMY-mt1cgXBXk9iv8YB9GKcIeNYzIkb6Tx1sieEYF6byfVjRqsHavdOlmqsyrpwSyrXVgeAUohviSWiAbLbPfm57_rraK1QbmAnlQ0KPZp7Rs'></script></head>
+<body>
+
+<header class="nav" id="topnav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <img src="assets/logo.jpg" alt="Round Table Jersey 192"/>
+    </a>
+    <nav id="primary-nav">
+      <ul>
+        <li><a href="#what" data-link="what">What we do</a></li>
+        <li><a href="#history" data-link="history">History</a></li>
+        <li><a href="#events" data-link="events">Events</a></li>
+        <li><a href="#ball" data-link="ball">Charity Ball</a></li>
+        <li><a href="#gallery" data-link="gallery">Gallery</a></li>
+        <li><a href="#join" data-link="join">Join</a></li>
+        <li><a href="#contact" class="cta cta-yellow">Get in touch →</a></li>
+      </ul>
+    </nav>
+    <button class="burger" id="burger" aria-label="Menu">Menu</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wheel-deco" aria-hidden="true"><img src="assets/wheel.png?v=2" alt=""/></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-meta">
+        <span class="pill"><span class="dot"></span> Jersey · No. 192 · Est. 1948</span>
+        <h1 class="display">
+          DO<br/>
+          <span class="y">MORE.</span><br/>
+          <span class="stroke"></span>
+        </h1>
+      </div>
+      <div class="hero-side">
+        <p>Friendship, fellowship and a bit of mischief — Jersey Round Table is a club for men aged 18–45 who want to make the island a better place and have a properly good time doing it.</p>
+        <div class="hero-stats">
+          <div class="stat"><div class="n">78</div><div class="l">YEARS ON JERSEY, FOUNDED IN 1948</div></div>
+          <div class="stat"><div class="n">&gt; £100k</div><div class="l">DONATED TO LOCAL CAUSES IN THE LAST 10 YEARS</div></div>
+          <div class="stat"><div class="n">What are you waiting for?</div><div class="l">JOIN TODAY!</div></div>
+        </div>
+        <div class="hero-actions">
+          <a class="cta cta-yellow" href="#join">Join the table →</a>
+          <a class="cta" style="background:transparent;color:var(--ink);border:1px solid var(--ink)" href="#events">See what's on</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-strip">
+      <div class="hero-track" id="heroTrack"></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>DO MORE</span><span class="dot">●</span>
+    <span class="y">MAKE FRIENDS</span><span class="dot">●</span>
+    <span>RAISE FUNDS</span><span class="dot">●</span>
+    <span class="y">HAVE FUN</span><span class="dot">●</span>
+    <span>SERVE JERSEY</span><span class="dot">●</span>
+    <span class="y">JERSEY 192</span><span class="dot">●</span>
+    <span>DO MORE</span><span class="dot">●</span>
+    <span class="y">MAKE FRIENDS</span><span class="dot">●</span>
+    <span>RAISE FUNDS</span><span class="dot">●</span>
+    <span class="y">HAVE FUN</span><span class="dot">●</span>
+    <span>SERVE JERSEY</span><span class="dot">●</span>
+    <span class="y">JERSEY 192</span><span class="dot">●</span>
+  </div>
+</div>
+
+<!-- WHAT WE DO -->
+<section id="what">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 01 / What we do</div>
+      <h2 class="section-title">Four things,<br/>done properly.</h2>
+    </div>
+    <div class="pillars">
+      <div class="pillar">
+        <div class="num">01</div>
+        <div class="icon">→</div>
+        <h3>Community</h3>
+        <p>Painting wards at Brighter Futures, taking Santa&rsquo;s bright red sleigh round every parish, building the Governor&rsquo;s Walk steps in St Peter&rsquo;s Valley. If it needs doing, we turn up.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">02</div>
+        <div class="icon">£</div>
+        <h3>Fundraise</h3>
+        <p>From the Charity Ball at the RJA &amp; HS to the Santa sleigh tour for the Jersey Charities Appeal, we raise around &pound;20,000 every year for local causes.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">03</div>
+        <div class="icon">●</div>
+        <h3>Socialise</h3>
+        <p>Pub quizzes, golf, snooker, kayaking, panto — every fortnight is something different. Bring your sense of humour.</p>
+      </div>
+      <div class="pillar">
+        <div class="num">04</div>
+        <div class="icon">+</div>
+        <h3>Grow</h3>
+        <p>Public speaking, event running, leadership, lifelong friendships. You'll leave Round Table a different person.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section id="history" class="dark">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num" style="color:#888">§ 02 / Our history</div>
+      <h2 class="section-title" style="color:var(--paper)">Since 1948
+adopt, adapt, improve.</h2>
+    </div>
+    <div class="history-grid">
+      <div class="history-text">
+        <p style="color:var(--paper)">Jersey Round Table No. 192 was chartered in 1948, just three years after the Liberation. A small group of close friends, led by Brian Le Marquand - who later became national president of Round Table Britain &amp; Ireland - decided the island needed something. A place for young men to meet, to lift each other up, and to do a bit of good while they were at it.</p>
+        <p style="color:#bbb">Nearly eight decades later, the table is still set. The Charity Ball is now an island institution. Members have repainted children's wards, built the steps and walkways of the <em>Governor's Walk</em> at La Gigoulande Mill in St Peter's Valley, and Father Christmassed every parish on the island. Memorable names have sat at this table over the years - the current Bailiff and a past Chief Minister among them - but the brief has stayed the same.</p>
+        <p style="color:#bbb"><strong style="color:var(--yellow);font-family:&#39;Archivo Black&#39;;letter-spacing:.05em">"Adopt, adapt, improve"</strong> — the words of King George VI, still our brief.</p>
+      </div>
+      <div class="timeline" hidden=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 03 / Diary</div>
+      <h2 class="section-title">The 2026<br/>diary.</h2>
+    </div>
+    <div class="events-toolbar">
+      <p style="margin:0;max-width:480px;font-size:15px;color:#555">We meet every second and fourth Tuesday. Guests welcome — drop us a line and we'll save you a chair.</p>
+      <div class="filter-tabs" id="evtFilter" hidden=""></div>
+    </div>
+    <div class="events-list" id="evtList">
+      <!-- rendered by JS -->
+    </div>
+  </div>
+</section>
+
+<!-- CHARITY BALL -->
+<section id="ball" class="dark">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num" style="color:#888">§ 04 / The big one</div>
+      <h2 class="section-title" style="color:var(--paper)">The Charity Ball.<br/><span style="color:var(--yellow)">28 November.</span></h2>
+    </div>
+    <div class="ball">
+      <div class="ball-card">
+        <div class="mono">Save the date · Black tie</div>
+        <h3>The 2026<br/>Charity Ball</h3>
+        <p style="font-size:16px;line-height:1.55;margin:0">A black-tie sit-down for 400&ndash;500 at the RJA &amp; HS Royal Jersey Showground. Live band, the famous Charity Ball show (written, produced and 'acted' by the Tablers themselves. Long-time headline sponsor: <strong>warm.je</strong>.</p>
+        <div class="meta">
+          <div><strong>SAT 28 NOV</strong>2026 &middot; 7pm</div>
+          <div>&gt;£20,000
+raised in 2025 for three local charities</div>
+        </div>
+      </div>
+      <div class="ball-figures">
+        <div class="figure-row">
+          <div class="figure-n">400</div>
+          <div class="figure-l">guests at the RJA&amp;HS every year</div>
+        </div>
+        <div class="figure-row">
+          <div class="figure-n">&gt;£20k</div>
+          <div class="figure-l">distributed to local charities chosen by the table in 2025</div>
+        </div>
+        <div class="figure-row">
+          <div class="figure-n">7</div>
+          <div class="figure-l">months of planning by the Ball Committee. It runs like clockwork.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section id="gallery">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num">§ 05 / In the wild</div>
+      <h2 class="section-title">Off the page,<br/>onto the island.</h2>
+    </div>
+  </div>
+  <div class="gallery-wrap" id="galleryWrap">
+    <div class="gallery-track" id="galleryTrack"></div>
+  </div>
+  <div class="wrap">
+    <div class="gallery-controls">
+      <span class="gallery-hint">Drag, scroll or use arrows — click to enlarge</span>
+      <div class="gallery-arrows">
+        <button id="galPrev" aria-label="Previous">‹</button>
+        <button id="galNext" aria-label="Next">›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section id="join" class="dark">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="section-num" style="color:#888">§ 06 / Join us</div>
+      <h2 class="section-title" style="color:var(--paper)">Pull up a chair.</h2>
+    </div>
+    <div class="join">
+      <div>
+        <p style="font-size:18px;line-height:1.5;color:var(--paper);max-width:520px;margin:0 0 12px">Round Table is for men aged 18–45. No initiation rituals, no funny handshakes — just turn up, meet the lads, and see if we're your kind of thing.</p>
+        <p style="font-size:15px;line-height:1.55;color:#bbb;max-width:520px;margin:0">Come along to a meeting as our guest. If we click, we'll sponsor you in. Most members say it's the best thing they ever did in their twenties or thirties.</p>
+        <div class="join-criteria">
+          <div class="crit">
+            <div class="n">01</div>
+            <div><h4 style="color:var(--paper)">Be 18 to 45</h4><p style="color:#aaa">When you turn 45 you graduate to 41 Club — the alumni network.</p></div>
+          </div>
+          <div class="crit">
+            <div class="n">02</div>
+            <div><h4 style="color:var(--paper)">Live or work in Jersey</h4><p style="color:#aaa">Born here, moved here, here for the season — all welcome.</p></div>
+          </div>
+          <div class="crit">
+            <div class="n">03</div>
+            <div><h4 style="color:var(--paper)">Show up</h4><p style="color:#aaa">Twice-a-month meetings, plus events. You get back what you put in.</p></div>
+          </div>
+          <div class="crit">
+            <div class="n">04</div>
+            <div><h4 style="color:var(--paper)">Bring something</h4><p style="color:#aaa">Energy, skills, a sense of humour, willingness to muck in. That's it.</p></div>
+          </div>
+        </div>
+      </div>
+      <form class="form-card" id="joinForm">
+        <h3>Drop us a line.</h3>
+        <p class="lede">Fill this in and Chris (our chairman) will be in touch within 48 hours to invite you to the next meeting.</p>
+        <div class="field"><label>Your name</label><input required="" name="name" placeholder="Joe Bloggs"/></div>
+        <div class="field"><label>Email</label><input required="" type="email" name="email" placeholder="joe@example.je"/></div>
+        <div class="field"><label>Age</label><input required="" name="age" type="number" min="18" max="45" placeholder="32"/></div>
+        <div class="field"><label>How did you hear about us?</label>
+          <select name="referral">
+            <option>A current member</option>
+            <option>Saw an event</option>
+            <option>Search / online</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label>Tell us a bit about you</label><textarea name="msg" placeholder="What you do, what you&#39;d want to get out of it…"></textarea></div>
+        <button type="submit" class="form-submit">Send it →</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER / CONTACT -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div style="background:#fff;padding:12px 18px;display:inline-block;margin-bottom:24px"><img src="assets/logo.jpg" alt="" style="height:48px"/></div>
+        <p>Jersey Round Table No. 192 — chartered 1948. A club for men 18–45 who want to do more for the island and have a good time doing it.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Find us</h5>
+        <ul>
+          <li>2nd &amp; 4th Tuesday</li>
+          <li>Every Month</li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="/cdn-cgi/l/email-protection#e5868a8b91848691a58f809796809c978a908b819184878980cb868a88"><span class="__cf_email__" data-cfemail="1774787963767463577d726564726e65786279736376757b723974787a">[email&#160;protected]</span></a></li>
+          <li><a href="/cdn-cgi/l/email-protection#95f6fdf4e7fce1ecf7f4f9f9d5fff0e7e6f0ece7fae0fbf1e1f4f7f9f0bbf6faf8"><span class="__cf_email__" data-cfemail="55363d34273c212c37343939153f302726302c273a203b3121343739307b363a38">[email&#160;protected]</span></a></li>
+          <li>WhatsApp: 07797 818686</li>
+          <li><a href="#join">Join us</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Family</h5>
+        <ul>
+          <li><a href="#">Round Table GB&amp;I</a></li>
+          <li><a href="#">41 Club</a></li>
+          <li><a href="#">Ladies Circle</a></li>
+          <li><a href="#">Tangent</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <div>© 1948–2026 Jersey Round Table No. 192. Adopt, adapt, improve.</div>
+      <div>Jersey Charity number 368 · Site by the table</div>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lb-close" id="lbClose">CLOSE ✕</button>
+  <button class="lb-nav lb-prev" id="lbPrev">‹</button>
+  <button class="lb-nav lb-next" id="lbNext">›</button>
+  <img id="lbImg" alt=""/>
+  <div class="lb-caption" id="lbCap"></div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ----- HERO CAROUSEL -----
+const HERO_PHOTOS = [
+  'brighter-futures.jpg',
+  'new-01.jpg',
+  'ball-winners.png',
+  'new-02.jpg',
+  'governors-walk-steps.jpg',
+  'new-03.jpg',
+  'volleyball.png',
+  'new-04.jpg',
+  'sleigh-santa.jpg',
+  'new-05.jpg',
+  'casino-night.jpg',
+  'new-06.jpg',
+  'woodland.png',
+  'new-07.jpg',
+  'annual-dinner.jpg',
+  'new-08.jpg',
+  'panto.png',
+  'new-09.jpg',
+  'clay-shooting.jpg',
+  'new-10.jpg',
+  'golf.png',
+  'new-11.jpg',
+  'fireworks.jpg',
+  'new-12.jpg',
+  'snooker.png',
+  'new-13.jpg',
+  'sushi-night.jpg',
+  'new-14.jpg',
+  'town-square.png',
+  'new-15.jpg',
+  'ball-trio.jpg',
+  'new-16.jpg',
+  'casino-chips.jpg',
+  'new-17.jpg',
+  'climbing.png',
+  'new-18.jpg',
+  'sleigh-selfie.jpg',
+  'new-19.jpg',
+  'bonfire.jpg',
+  'new-20.jpg',
+  'presentation.jpg',
+  'new-21.jpg',
+  'swimarathon.jpg',
+  'new-22.jpg',
+  'ball-showgirls.png',
+  'new-23.jpg',
+  'tour-de-jersey.png',
+  'new-24.jpg',
+  'sleigh.png',
+  'new-25.jpg',
+  'new-26.jpg',
+  'new-27.jpg',
+  'new-28.jpg',
+  'new-29.jpg',
+  'new-30.jpg',
+];
+(function buildHero(){
+  const t = document.getElementById('heroTrack');
+  if(!t) return;
+  const cells = HERO_PHOTOS.map(p => `<div class="h-img"><img src="assets/photos/${p}" alt="" loading="lazy" /></div>`).join('');
+  t.innerHTML = cells + cells; // duplicate for seamless loop
+})();
+
+// ----- GALLERY CAROUSEL -----
+const GALLERY = [
+  {src:'brighter-futures.jpg', cap:'Brighter Futures — repainting the nursery', size:'wide'},
+  {src:'new-01.jpg', cap:'Boxing fitness night — gloves up', size:''},
+  {src:'ball-winners.png', cap:'Charity Ball — winners on stage', size:''},
+  {src:'new-02.jpg', cap:'Punch-bag circuit — Tuesday training', size:'tall'},
+  {src:'new-03.jpg', cap:'Beach Day — the lift', size:''},
+  {src:'governors-walk-steps.jpg', cap:'Governor\u2019s Walk — new steps at La Gigoulande Mill', size:'wide'},
+  {src:'new-04.jpg', cap:'Charity Ball — the dance floor', size:''},
+  {src:'new-05.jpg', cap:'Sunset pint after sports night', size:''},
+  {src:'sleigh-santa.jpg', cap:'Sleigh Tour — the very real beard', size:'tall'},
+  {src:'new-06.jpg', cap:'Ragwort pulling — service afternoon', size:''},
+  {src:'new-07.jpg', cap:'Jersey Triathlon Club — flying the flag', size:''},
+  {src:'casino-night.jpg', cap:'Casino Night — place your bets', size:''},
+  {src:'new-08.jpg', cap:'Paddleboard duo — summer sports', size:'tall'},
+  {src:'new-09.jpg', cap:'Solo SUP at sunrise', size:'tall'},
+  {src:'woodland.png', cap:'Le Don Hilton — community woodland planting, 2011', size:'wide'},
+  {src:'new-10.jpg', cap:'Les Amis bucket day — St Helier', size:''},
+  {src:'new-11.jpg', cap:'St Helier Christmas parade — float duty', size:''},
+  {src:'annual-dinner.jpg', cap:'Annual dinner at the chairman\u2019s table', size:''},
+  {src:'new-12.jpg', cap:'Charity Ball aftershow — the team', size:''},
+  {src:'new-13.jpg', cap:'On the dance floor — live band, full house', size:''},
+  {src:'panto.png', cap:'The Ball Show — Tabler-written, Tabler-acted', size:''},
+  {src:'new-14.jpg', cap:'Pasta-making evening at home', size:'wide'},
+  {src:'new-15.jpg', cap:'Hands-in — fresh pasta from scratch', size:''},
+  {src:'clay-shooting.jpg', cap:'Clay-pigeon shooting — summer sports', size:''},
+  {src:'new-16.jpg', cap:'Ball Show costume call — rainbow shorts', size:'tall'},
+  {src:'new-17.jpg', cap:'Co-op Quality Street drop — Christmas appeal', size:'tall'},
+  {src:'golf.png', cap:'Annual Round Table golf day', size:''},
+  {src:'new-18.jpg', cap:'Charity Ball — Bergerac, the Second Coming', size:'wide'},
+  {src:'new-19.jpg', cap:'Pirate Night at the chairman\u2019s house', size:''},
+  {src:'fireworks.jpg', cap:'Battle of Flowers fireworks — manning the gates', size:''},
+  {src:'new-20.jpg', cap:'Beach hut paint-up — service project', size:'wide'},
+  {src:'new-21.jpg', cap:'Sleigh Tour — La Corbi\u00e8re lighthouse', size:'tall'},
+  {src:'snooker.png', cap:'Snooker night — inter-table tournament', size:''},
+  {src:'new-22.jpg', cap:'Racketball ladder — somewhere between competitive and chaotic', size:'wide'},
+  {src:'new-23.jpg', cap:'Sleigh Tour — two reindeer, every parish', size:'tall'},
+  {src:'sushi-night.jpg', cap:'Sushi night at the clubhouse', size:''},
+  {src:'town-square.png', cap:'A Saturday in town', size:''},
+  {src:'ball-trio.jpg', cap:'Backstage at the Ball Show', size:''},
+  {src:'new-24.jpg', cap:'Charity casino — roulette draws the crowd', size:'tall'},
+  {src:'new-25.jpg', cap:'The Boys\u2019 dinner — stacked burger challenge', size:''},
+  {src:'casino-chips.jpg', cap:'Tournament chips — charity casino night', size:''},
+  {src:'climbing.png', cap:'On the tools — service project', size:'tall'},
+  {src:'sleigh-selfie.jpg', cap:'The sleigh team, plus Father Christmas', size:''},
+  {src:'new-26.jpg', cap:'Pre-Christmas casino — the lads in bowties', size:''},
+  {src:'new-27.jpg', cap:'Santa\u2019s float — town parade', size:''},
+  {src:'new-28.jpg', cap:'Round Table Christmas float — St Mark\u2019s', size:''},
+  {src:'bonfire.jpg', cap:'Charity Bonfire — embers up, money in', size:''},
+  {src:'new-29.jpg', cap:'Jet-ski morning — Elizabeth Castle behind', size:'wide'},
+  {src:'presentation.jpg', cap:'Charter renewal', size:''},
+  {src:'new-30.jpg', cap:'Beach pints at sunset', size:'wide'},
+  {src:'swimarathon.jpg', cap:'Swimarathon — the relay of optimists', size:'tall'},
+  {src:'ball-showgirls.png', cap:'Ball entertainment', size:''},
+  {src:'tour-de-jersey.png', cap:'Tour de Jersey — for Jersey Hospice Care', size:'wide'},
+  {src:'sleigh.png', cap:'Christmas Sleigh Tour', size:''},
+];
+(function buildGallery(){
+  const t = document.getElementById('galleryTrack');
+  if(!t) return;
+  t.innerHTML = GALLERY.map((g,i)=>`
+    <div class="g-tile ${g.size}" data-i="${i}" data-cap="${g.cap.replace(/"/g,'&quot;')}">
+      <img src="assets/photos/${g.src}" alt="" loading="lazy" />
+      <div class="overlay">${g.cap}</div>
+    </div>
+  `).join('');
+})();
+
+// ----- EVENTS DATA -----
+const EVENTS = [
+  // ----- UPCOMING (2026/27 planner) -----
+  {date:'2026-05-26', label:'26 MAY', dow:'TUE', title:'Environmental action', tag:'CHARITY', body:'Boots-on-the-ground service night \u2014 a clean-up, planting or supporting one of our fellow service clubs. Marcus has it sorted.', loc:'Across the island · 7pm'},
+  {date:'2026-06-09', label:'09 JUN', dow:'TUE', title:'Sports night \u2014 Sea Swim', body:'Summer kicks off in the water. Mixed pace, beach pint after. Bring a towel and a guest.', loc:'Havre des Pas · 7pm'},
+  {date:'2026-06-13', label:'13 JUN', dow:'SAT', title:'French Trip', tag:'PARTNERS', body:'Two-day jolly off the rock with partners \u2014 ferry over Saturday, back Sunday.', loc:'St-Malo &amp; the Bay'},
+  {date:'2026-06-23', label:'23 JUN', dow:'TUE', title:'Business meeting', body:'Standing meeting \u2014 committee reports, plans, and a pint. Guests welcome.', loc:'Clubhouse · 7pm'},
+  {date:'2026-07-17', label:'17 JUL', dow:'FRI', title:'41 Club joint social', tag:'JOINT', body:'Drinks with our older brothers up the road \u2014 once a Tabler, always a Tabler.', loc:'Clubhouse'},
+  {date:'2026-07-19', label:'19 JUL', dow:'SUN', title:'Festival of the Mile', body:'Round Table at the island\u2019s favourite community sportive \u2014 running, music and a post-race BBQ.', loc:'St Helier'},
+  {date:'2026-07-25', label:'25 JUL', dow:'SAT', title:'Annual Dinner', tag:'PARTNERS', body:'Black tie, table speeches, charter renewed. A proper sit-down evening with partners.', loc:'Venue TBC'},
+  {date:'2026-07-28', label:'28 JUL', dow:'TUE', title:'Durrell Zoo evening', tag:'GUESTS WELCOME', body:'After-hours visit at Durrell \u2014 keeper talk and a members\u2019 social. Bring a friend you\u2019d like to introduce to the Table.', loc:'Durrell, Trinity'},
+  {date:'2026-08-08', label:'08 AUG', dow:'SAT', title:'Sark Trip', body:'Day-trip island hop \u2014 boat over, long lunch, boat back. A Table tradition.', loc:'Sark'},
+  {date:'2026-08-14', label:'14 AUG', dow:'FRI', title:'Sporting Weekend · Colchester', tag:'AWAY', body:'Three-day inter-table sporting weekend with our friends at Colchester Round Table.', loc:'Colchester, UK'},
+  {date:'2026-08-22', label:'22 AUG', dow:'SAT', title:'Summer BBQ', tag:'PARTNERS', body:'Annual mid-summer BBQ \u2014 partners, friends and kids welcome.', loc:'St Brelade\u2019s Bay'},
+  {date:'2026-08-25', label:'25 AUG', dow:'TUE', title:'Sports \u2014 Sea Swim', body:'One last summer dip before the evenings get short.', loc:'Havre des Pas · 7pm'},
+  {date:'2026-09-05', label:'05 SEP', dow:'SAT', title:'Battle of Flowers Fireworks', tag:'CHARITY', body:'Round Table mans the gates on Jersey\u2019s biggest night out. Every pound to the year\u2019s causes.', loc:'St Aubin\u2019s Bay'},
+  {date:'2026-09-08', label:'08 SEP', dow:'TUE', title:'Walking Tour', tag:'GUESTS WELCOME', body:'Members-led history walk through St Helier, finishing at a known pub.', loc:'St Helier'},
+  {date:'2026-09-11', label:'11 SEP', dow:'FRI', title:'Calais \u2192 Nice Rally', tag:'AWAY', body:'Charity banger rally \u2014 cheap cars, three days, one continent. Sponsors very welcome.', loc:'Calais to Nice'},
+  {date:'2026-09-22', label:'22 SEP', dow:'TUE', title:'Talk: the Bailiff', tag:'GUESTS WELCOME', body:'First of three island talks this year \u2014 the Bailiff, the Chief of Police and the Receiver General.', loc:'Clubhouse · 7.30pm'},
+  {date:'2026-10-13', label:'13 OCT', dow:'TUE', title:'Talk: Alan Blair', tag:'GUESTS WELCOME', body:'An evening with one of Durrell\u2019s leading voices on rewilding.', loc:'Clubhouse · 7.30pm'},
+  {date:'2026-10-15', label:'15 OCT', dow:'THU', title:'Skinflint Night', body:'Bring the cheapest gift you can find. Best worst wins. A Round Table classic.', loc:'Clubhouse · 7pm'},
+  {date:'2026-11-07', label:'07 NOV', dow:'SAT', title:'Charity Fireworks', tag:'CHARITY', body:'Gates, glow-sticks, fireworks. The traditional November fundraiser.', loc:'St Aubin\u2019s Bay'},
+  {date:'2026-11-28', label:'28 NOV', dow:'SAT', title:'Charity Ball 2026', tag:'BIG ONE', body:'Black-tie sit-down for 400\u2013500 at the RJA &amp; HS Royal Jersey Showground. Live band, the famous Tabler-written show, headline sponsor warm.je. Tickets August.', loc:'RJA &amp; HS, Trinity'},
+  {date:'2026-12-05', label:'05 DEC', dow:'SAT', title:'Christmas Sleigh Runs begin', tag:'CHARITY', body:'Three weeks. Every parish. One very real beard. £8k+ raised at the doorstep each year.', loc:'Around the island'},
+  {date:'2026-12-16', label:'16 DEC', dow:'WED', title:'Christmas Chinese', body:'Members\u2019 Christmas dinner \u2014 same restaurant, same lazy Susan, ten years running.', loc:'St Helier'},
+  {date:'2027-01-19', label:'19 JAN', dow:'TUE', title:'Founders\u2019 Night', tag:'PARTNERS', body:'Honouring the small group of friends who chartered No. 192 in 1948.', loc:'Clubhouse · 7.30pm'},
+  {date:'2027-02-09', label:'09 FEB', dow:'TUE', title:'Talk: Chief of Police', tag:'GUESTS WELCOME', body:'Second island talk of the year \u2014 candid evening with the Chief of Police.', loc:'Clubhouse · 7.30pm'},
+  {date:'2027-02-23', label:'23 FEB', dow:'TUE', title:'Thank You Night', tag:'PARTNERS', body:'Drinks for the sponsors, partners and volunteers who made the Charity Ball happen.', loc:'Clubhouse · 7pm'},
+  {date:'2027-02-28', label:'28 FEB', dow:'SUN', title:'Swimarathon (TBC)', tag:'CHARITY', body:'Annual island swimathon \u2014 Round Table fields its usual relay of optimists.', loc:'Les Quennevais Pool'},
+  {date:'2027-03-06', label:'06 MAR', dow:'SAT', title:'Progressive Supper', tag:'PARTNERS', body:'Three courses, three members\u2019 houses, one excellent night.', loc:'Various, St Helier'},
+  {date:'2027-03-09', label:'09 MAR', dow:'TUE', title:'Darts &amp; Pool night', body:'Inter-club tournament \u2014 our annual attempt at sporting redemption.', loc:'Clubhouse'},
+  {date:'2027-03-29', label:'29 MAR', dow:'MON', title:'Easter Clean-Up', tag:'CHARITY', body:'Coast and beach clean-up before the summer crowds arrive.', loc:'St Ouen\u2019s Bay'},
+  {date:'2027-04-13', label:'13 APR', dow:'TUE', title:'Wine Tasting', tag:'PARTNERS', body:'A members\u2019 vintner picks the bottles. Pairs and partners encouraged.', loc:'Clubhouse · 7.30pm'},
+  {date:'2027-04-27', label:'27 APR', dow:'TUE', title:'AGM 2027', body:'Annual general meeting \u2014 handover of officers for 2027/28.', loc:'Clubhouse · 7.30pm'},
+
+  // ----- PAST -----
+  {date:'2026-05-12', label:'12 MAY', dow:'TUE', title:'Beach BBQ &amp; Games', tag:'PAST', body:'First evening of the season outside \u2014 sausages, sand and rounders at sunset.', loc:'St Brelade\u2019s Bay', past:true},
+  {date:'2026-05-09', label:'09 MAY', dow:'SAT', title:'Liberation Day · UK RTBI AGM', tag:'PAST', body:'Twin headers \u2014 Liberation Day on the rock and the UK Round Table AGM elsewhere.', loc:'St Helier & UK', past:true},
+  {date:'2026-04-28', label:'28 APR', dow:'TUE', title:'AGM 2026', tag:'PAST', body:'Officers in, last year\u2019s minutes signed, eyes on the next twelve months.', loc:'Clubhouse', past:true},
+  {date:'2026-04-18', label:'18 APR', dow:'SAT', title:'Partners\u2019 Night', tag:'PAST', body:'Year-opener with the people who put up with all this. A very good evening.', loc:'St Helier', past:true},
+  {date:'2026-04-14', label:'14 APR', dow:'TUE', title:'Dodgeball + AT Talk', tag:'PAST', body:'Soft balls, hard talk \u2014 a visit from our Area Tabler followed by some athletic humiliation.', loc:'Clubhouse', past:true},
+  {date:'2025-11-23', label:'23 NOV', dow:'SAT', title:'Charity Ball 2025', tag:'PAST', body:'400 guests, £20,418 raised for Brighter Futures, Jersey Hospice and Headway.', loc:'Pomme d\u2019Or Hotel', past:true},
+  {date:'2025-12-19', label:'19 DEC', dow:'FRI', title:'Christmas Sleigh Tour', tag:'PAST', body:'Three weeks, every parish, one very real beard. £8k raised at the doorstep.', loc:'Around the island', past:true},
+];
+
+const today = new Date('2026-05-15');
+const list = document.getElementById('evtList');
+function render(){
+  const rows = EVENTS
+    .filter(e => e.date.startsWith('2026'))
+    .sort((a,b) => new Date(a.date) - new Date(b.date));
+  list.innerHTML = rows.map(e=>`
+    <div class="event-row">
+      <div class="event-date">${e.label}<small>${e.dow} · ${e.date.slice(0,4)}</small></div>
+      <div class="event-title">${e.title}</div>
+      <div class="event-body">${e.body}</div>
+      <div class="event-loc">${e.loc}</div>
+      <div class="event-arrow">→</div>
+    </div>
+  `).join('');
+}
+render();
+
+// ----- LIGHTBOX -----
+const tiles = [...document.querySelectorAll('.g-tile')].filter(t=>!t.classList.contains('placeholder'));
+const lb = document.getElementById('lightbox');
+const lbImg = document.getElementById('lbImg');
+const lbCap = document.getElementById('lbCap');
+let lbIdx = 0;
+function openLB(i){
+  lbIdx = i;
+  const t = tiles[i];
+  lbImg.src = t.querySelector('img').src;
+  lbCap.textContent = t.dataset.cap || '';
+  lb.classList.add('on');
+}
+tiles.forEach((t,i)=>t.addEventListener('click',e=>{
+  // ignore clicks that happened during a drag
+  if(galDragged){galDragged=false;return}
+  openLB(i);
+}));
+document.getElementById('lbClose').addEventListener('click',()=>lb.classList.remove('on'));
+document.getElementById('lbPrev').addEventListener('click',()=>openLB((lbIdx-1+tiles.length)%tiles.length));
+document.getElementById('lbNext').addEventListener('click',()=>openLB((lbIdx+1)%tiles.length));
+lb.addEventListener('click',e=>{if(e.target===lb)lb.classList.remove('on')});
+document.addEventListener('keydown',e=>{
+  if(!lb.classList.contains('on')) return;
+  if(e.key==='Escape') lb.classList.remove('on');
+  if(e.key==='ArrowLeft') openLB((lbIdx-1+tiles.length)%tiles.length);
+  if(e.key==='ArrowRight') openLB((lbIdx+1)%tiles.length);
+});
+
+// ----- GALLERY CONTROLS (arrows + drag + auto-advance) -----
+const galWrap = document.getElementById('galleryWrap');
+let galDragged = false;
+function galStep(dir){
+  galWrap.scrollBy({left: dir * 520, behavior:'smooth'});
+}
+document.getElementById('galPrev').addEventListener('click',()=>{pauseAuto(); galStep(-1);});
+document.getElementById('galNext').addEventListener('click',()=>{pauseAuto(); galStep(1);});
+
+let galAuto = null;
+function startAuto(){
+  if(galAuto) return;
+  galAuto = setInterval(()=>{
+    const max = galWrap.scrollWidth - galWrap.clientWidth;
+    if(galWrap.scrollLeft >= max - 2){
+      galWrap.scrollTo({left:0,behavior:'smooth'});
+    } else {
+      galWrap.scrollBy({left:1,behavior:'auto'});
+    }
+  }, 60);
+}
+let pauseTimer;
+function pauseAuto(){
+  clearInterval(galAuto); galAuto = null;
+  clearTimeout(pauseTimer);
+  pauseTimer = setTimeout(startAuto, 4500);
+}
+startAuto();
+galWrap.addEventListener('mouseenter',pauseAuto);
+galWrap.addEventListener('wheel',pauseAuto,{passive:true});
+galWrap.addEventListener('touchstart',pauseAuto,{passive:true});
+
+// drag-to-scroll
+(function dragScroll(){
+  let isDown=false, startX=0, startScroll=0, moved=0;
+  galWrap.addEventListener('mousedown',e=>{
+    isDown=true; moved=0; galDragged=false;
+    startX=e.pageX; startScroll=galWrap.scrollLeft;
+    galWrap.style.cursor='grabbing';
+    pauseAuto();
+  });
+  window.addEventListener('mouseup',()=>{
+    if(isDown && moved>6) galDragged = true;
+    isDown=false;
+    galWrap.style.cursor='';
+  });
+  window.addEventListener('mousemove',e=>{
+    if(!isDown) return;
+    const dx = e.pageX - startX;
+    moved = Math.abs(dx);
+    if(moved>4) e.preventDefault();
+    galWrap.scrollLeft = startScroll - dx;
+  });
+})();
+
+// ----- MOBILE NAV -----
+const nav = document.getElementById('primary-nav');
+document.getElementById('burger').addEventListener('click',()=>nav.classList.toggle('open'));
+nav.addEventListener('click',e=>{if(e.target.tagName==='A')nav.classList.remove('open')});
+
+// ----- SCROLL SPY + STICKY -----
+const navEl = document.getElementById('topnav');
+const links = [...document.querySelectorAll('nav a[data-link]')];
+const sections = links.map(l=>document.getElementById(l.dataset.link)).filter(Boolean);
+window.addEventListener('scroll',()=>{
+  navEl.classList.toggle('scrolled', window.scrollY>10);
+  const y = window.scrollY + 120;
+  let cur = sections[0]?.id;
+  sections.forEach(s=>{if(s && s.offsetTop<=y) cur = s.id;});
+  links.forEach(l=>l.classList.toggle('active', l.dataset.link===cur));
+});
+
+// smooth-scroll for in-page links
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    const id = a.getAttribute('href').slice(1);
+    const el = document.getElementById(id);
+    if(!el) return;
+    e.preventDefault();
+    window.scrollTo({top:el.offsetTop-80, behavior:'smooth'});
+  });
+});
+
+// ----- FORM -----
+document.getElementById('joinForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const card = e.target;
+  card.innerHTML = `
+    <h3 style="color:var(--yellow)">See you Tuesday.</h3>
+    <p class="lede" style="color:var(--paper);font-size:15px">Thanks — your message is with Chris. Expect an email within 48 hours with an invite to the next meeting.</p>
+    <div class="form-success">In the meantime, follow us @jerseyrt192 — and pull up a chair on the 9th.</div>
+  `;
+});
+</script>
+</body>
+</html>
