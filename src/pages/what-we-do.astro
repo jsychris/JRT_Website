@@ -1,0 +1,158 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+---
+<BaseLayout
+  title="What we do — Jersey Round Table"
+  description="Santa visits across all 12 parishes, the annual Charity Ball, the restoration of Gigoulande Mill, and Tuesday-night fellowship. Here's what JRT actually does."
+>
+  <section class="mx-auto max-w-(--container-max) px-6 pt-16 pb-12 md:pt-24">
+    <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">What we do</p>
+    <h1 class="mt-4 max-w-4xl">Big nights, big builds, and a sleigh that visits every parish.</h1>
+    <p class="mt-6 text-lg max-w-2xl">
+      Three flagship traditions, plus the smaller stuff that quietly adds up across a year.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 py-10">
+    <article class="grid md:grid-cols-5 gap-8 items-start">
+      <div class="md:col-span-3">
+        <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">Tradition</p>
+        <h2 class="mt-2">The Santa float</h2>
+        <p class="mt-4">
+          For decades, Santa has ridden a red sleigh through every one of Jersey's twelve
+          parishes in the run-up to Christmas. The float doubles as a collection &mdash; proceeds
+          go to the <strong>Jersey Charities Appeal</strong>.
+        </p>
+        <p class="mt-4">
+          It's the part of Jersey Round Table most islanders know us for. For a lot of Jersey
+          kids, it's also the first they hear of us.
+        </p>
+        <div class="mt-6">
+          <Button href="/events" variant="secondary">See this year's parish dates</Button>
+        </div>
+      </div>
+      <aside class="md:col-span-2 rounded-(--radius-card) bg-rt-yellow/30 p-6">
+        <p class="text-sm font-medium uppercase tracking-widest text-rt-navy">At a glance</p>
+        <dl class="mt-4 space-y-3 text-sm">
+          <div>
+            <dt class="text-rt-mute">Parishes visited</dt>
+            <dd class="text-rt-navy font-semibold">All 12</dd>
+          </div>
+          <div>
+            <dt class="text-rt-mute">Beneficiary</dt>
+            <dd class="text-rt-navy font-semibold">Jersey Charities Appeal</dd>
+          </div>
+          <div>
+            <dt class="text-rt-mute">When</dt>
+            <dd class="text-rt-navy font-semibold">December, every year</dd>
+          </div>
+        </dl>
+      </aside>
+    </article>
+  </section>
+
+  <section class="bg-rt-navy text-rt-paper py-16 md:py-20">
+    <div class="mx-auto max-w-(--container-max) px-6 grid md:grid-cols-5 gap-8 items-start">
+      <div class="md:col-span-3">
+        <p class="text-sm font-medium uppercase tracking-widest text-rt-yellow">Fundraiser</p>
+        <h2 class="mt-2 text-rt-paper">The annual Charity Ball</h2>
+        <p class="mt-4 text-rt-paper/85">
+          The chapter's signature fundraiser. Held in late November at the
+          <strong class="text-rt-paper">Royal Jersey Showground</strong>: 400 to 500 guests,
+          black tie, a three-course dinner, a themed performance by members, a live band, and
+          a raffle that has been known to get out of hand.
+        </p>
+        <p class="mt-4 text-rt-paper/85">
+          Headline sponsor: <strong class="text-rt-paper">warm.je</strong>. Catering by
+          <strong class="text-rt-paper">Harpers</strong>. Recent line-ups have featured
+          <strong class="text-rt-paper">Inside Job</strong>.
+        </p>
+        <div class="mt-6 flex gap-3 flex-wrap">
+          <Button href="/grants" variant="primary">Charities we've supported</Button>
+        </div>
+      </div>
+      <aside class="md:col-span-2 rounded-(--radius-card) bg-rt-paper/10 p-6">
+        <p class="text-sm font-medium uppercase tracking-widest text-rt-yellow">2024 beneficiaries</p>
+        <ul class="mt-4 space-y-2 text-sm text-rt-paper/90 list-none p-0">
+          <li>Happy Heroes Jersey</li>
+          <li>Tiny Seeds</li>
+          <li>Freeda Jersey</li>
+          <li>Jersey RFC Women</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 py-16 md:py-20">
+    <article class="grid md:grid-cols-5 gap-8 items-start">
+      <div class="md:col-span-3">
+        <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">Case study</p>
+        <h2 class="mt-2">Restoring Gigoulande Mill</h2>
+        <p class="mt-4">
+          La Gigoulande Mill in St Peter's Valley is a Crown mill first registered in 1247 &mdash;
+          one of only four watermills in the British Isles known to have used two overshot
+          wheels.
+        </p>
+        <p class="mt-4">
+          In 2019 we approached the then HM Receiver General to volunteer on the conservation
+          project. Over the next three years we felled scrub, exposed and repaired the
+          deteriorated dam wall with specialist masons, cleared the pond bed, installed a sluice
+          gate, and built a spillway. The millpond was opened by then Lieutenant-Governor
+          <strong>Air Chief Marshal Sir Stephen Dalton</strong> in December 2020. The connecting
+          footpath was opened by his successor, <strong>Vice-Admiral Jerry Kyd</strong>, in
+          December 2022.
+        </p>
+        <p class="mt-4">
+          The mill is open to the public. The walk is worth the trip.
+        </p>
+      </div>
+      <aside class="md:col-span-2 rounded-(--radius-card) bg-rt-sea/10 p-6">
+        <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">Project facts</p>
+        <dl class="mt-4 space-y-3 text-sm">
+          <div>
+            <dt class="text-rt-mute">First registered</dt>
+            <dd class="text-rt-navy font-semibold">1247</dd>
+          </div>
+          <div>
+            <dt class="text-rt-mute">Years on site</dt>
+            <dd class="text-rt-navy font-semibold">2019&ndash;2022</dd>
+          </div>
+          <div>
+            <dt class="text-rt-mute">Opened by</dt>
+            <dd class="text-rt-navy font-semibold">Two Lieutenant-Governors</dd>
+          </div>
+          <div>
+            <dt class="text-rt-mute">Partners</dt>
+            <dd class="text-rt-navy font-semibold">National Trust for Jersey, Jersey Trees for Life, Probation Service</dd>
+          </div>
+        </dl>
+      </aside>
+    </article>
+  </section>
+
+  <section class="bg-rt-paper border-t border-black/5">
+    <div class="mx-auto max-w-(--container-max) px-6 py-16 md:py-20">
+      <h2>And the smaller stuff</h2>
+      <p class="mt-4 max-w-2xl">
+        Not every year produces a Lieutenant-Governor ribbon-cut. Most years it's the steady
+        rhythm of these.
+      </p>
+      <div class="mt-8 grid md:grid-cols-3 gap-6">
+        <Card>
+          <h3>Casino nights</h3>
+          <p class="mt-2 text-rt-mute">Hosted events at venues across the island.</p>
+        </Card>
+        <Card>
+          <h3>Bag packs</h3>
+          <p class="mt-2 text-rt-mute">Supermarket fundraising weekends.</p>
+        </Card>
+        <Card>
+          <h3>Environment days</h3>
+          <p class="mt-2 text-rt-mute">Annual clearing of invasive species with the National Trust for Jersey.</p>
+        </Card>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

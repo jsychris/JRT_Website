@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EventCard from '../components/EventCard.astro';
+import EmptyState from '../components/EmptyState.astro';
+import { getCollection } from 'astro:content';
+
+const now = new Date();
+const all = await getCollection('events', ({ data }) => !data.draft);
+const upcoming = all
+  .filter((e) => e.data.date >= now)
+  .sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const past = all
+  .filter((e) => e.data.date < now)
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 6);
+---
+<BaseLayout
+  title="Events — Jersey Round Table"
+  description="Upcoming Jersey Round Table events: the Charity Ball, Santa visits across the parishes, fellowship trips, and Tuesday meet-ups."
+>
+  <section class="mx-auto max-w-(--container-max) px-6 pt-16 pb-12 md:pt-24">
+    <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">Events</p>
+    <h1 class="mt-4 max-w-4xl">What's on, and when.</h1>
+    <p class="mt-6 text-lg max-w-2xl">
+      Tuesday meet-ups, public fundraisers, and the occasional trip away. Members get a fuller
+      calendar in the app &mdash; here are the public dates.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 py-10">
+    <h2>Upcoming</h2>
+    {upcoming.length === 0 ? (
+      <div class="mt-6">
+        <EmptyState
+          title="Nothing on the public calendar yet."
+          description="We'll publish the next Santa float route and Charity Ball date here as soon as they're locked. Until then, get in touch for what's coming up."
+          ctaHref="/contact"
+          ctaLabel="Ask what's next"
+        />
+      </div>
+    ) : (
+      <div class="mt-6 grid md:grid-cols-2 gap-4">
+        {upcoming.map((e) => (
+          <EventCard
+            title={e.data.title}
+            date={e.data.date}
+            location={e.data.location}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+
+  {past.length > 0 && (
+    <section class="mx-auto max-w-(--container-max) px-6 py-10">
+      <h2>Recently</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-4">
+        {past.map((e) => (
+          <EventCard
+            title={e.data.title}
+            date={e.data.date}
+            location={e.data.location}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>

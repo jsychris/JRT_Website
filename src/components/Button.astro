@@ -1,0 +1,32 @@
+---
+interface Props {
+  variant?: 'primary' | 'secondary' | 'ghost';
+  href?: string;
+  type?: 'button' | 'submit' | 'reset';
+  class?: string;
+}
+
+const { variant = 'primary', href, type = 'button', class: className = '', ...rest } = Astro.props;
+
+const base =
+  'inline-flex items-center justify-center font-medium rounded-md px-5 py-2.5 text-sm no-underline transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed';
+
+const variants: Record<NonNullable<Props['variant']>, string> = {
+  primary: 'bg-rt-yellow text-rt-navy hover:brightness-95',
+  secondary: 'border border-rt-navy text-rt-navy bg-transparent hover:bg-rt-navy hover:text-rt-paper',
+  ghost: 'text-rt-navy bg-transparent hover:underline underline-offset-4',
+};
+
+const classes = `${base} ${variants[variant]} ${className}`;
+---
+{
+  href ? (
+    <a href={href} class={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

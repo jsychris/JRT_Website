@@ -1,0 +1,9 @@
+---
+interface Props {
+  lines?: number;
+}
+const { lines = 3 } = Astro.props;
+---
+<div class="space-y-3 animate-pulse" aria-busy="true" aria-live="polite">
+  {Array.from({ length: lines }).map(() => <div class="h-4 rounded bg-black/10" />)}
+</div>

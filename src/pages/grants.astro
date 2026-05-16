@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+import EmptyState from '../components/EmptyState.astro';
+import { getCollection } from 'astro:content';
+
+const grants = (await getCollection('grants')).sort((a, b) => b.data.year - a.data.year);
+const grantsByYear = Object.groupBy(grants, (g) => String(g.data.year));
+const years = Object.keys(grantsByYear).sort((a, b) => Number(b) - Number(a));
+---
+<BaseLayout
+  title="Apply for a grant — Jersey Round Table"
+  description="If you run, or know, a Jersey cause that needs financial support, here's what we fund, the criteria, and how to apply."
+>
+  <section class="mx-auto max-w-(--container-max) px-6 pt-16 pb-12 md:pt-24">
+    <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">Grants</p>
+    <h1 class="mt-4 max-w-4xl">Funding Jersey causes that need a hand.</h1>
+    <p class="mt-6 text-lg max-w-2xl">
+      Most of what we raise on the Charity Ball and through the Santa float goes straight back
+      to Jersey causes. If that's you, or someone you know, here's how to apply.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 py-10">
+    <h2>What we fund</h2>
+    <div class="mt-8 grid md:grid-cols-3 gap-6">
+      <Card>
+        <h3>Local Jersey causes</h3>
+        <p class="mt-2 text-rt-mute">
+          The grant has to benefit Jersey residents. We don't fund off-island appeals, however
+          deserving.
+        </p>
+      </Card>
+      <Card>
+        <h3>Specific, costed asks</h3>
+        <p class="mt-2 text-rt-mute">
+          "Fund this piece of equipment", "cover this term's transport", "pay for these
+          sessions". Easier to support than open-ended operational top-ups.
+        </p>
+      </Card>
+      <Card>
+        <h3>Causes that align with our work</h3>
+        <p class="mt-2 text-rt-mute">
+          Children, families, mental health, vulnerable islanders, environment. The committee
+          considers everything, but those areas are where most grants land.
+        </p>
+      </Card>
+    </div>
+  </section>
+
+  <section class="bg-rt-navy text-rt-paper py-16 md:py-20">
+    <div class="mx-auto max-w-(--container-max) px-6 grid md:grid-cols-2 gap-10 items-start">
+      <div>
+        <h2 class="text-rt-paper">How to apply</h2>
+        <ol class="mt-6 space-y-4 text-rt-paper/85 list-none p-0">
+          <li>
+            <p class="font-semibold text-rt-yellow">1. Get in touch</p>
+            <p class="mt-1">Email <a href="mailto:charityball@jerseyroundtable.com" class="text-rt-paper underline underline-offset-4">charityball@jerseyroundtable.com</a> with a short description of the cause and the ask.</p>
+          </li>
+          <li>
+            <p class="font-semibold text-rt-yellow">2. We'll come back to you</p>
+            <p class="mt-1">If it's a fit, we'll ask for more detail &mdash; what the money would do, evidence of impact, and how you'd like to be involved on the night.</p>
+          </li>
+          <li>
+            <p class="font-semibold text-rt-yellow">3. Committee decides</p>
+            <p class="mt-1">The committee picks beneficiaries each year ahead of the Charity Ball. Successful causes are announced at the event.</p>
+          </li>
+        </ol>
+      </div>
+      <div>
+        <h2 class="text-rt-paper">When we decide</h2>
+        <p class="mt-4 text-rt-paper/85">
+          Most decisions are made in <strong class="text-rt-paper">August and September</strong>
+          for the November Charity Ball cycle. Smaller, in-year asks can be considered at any
+          committee meeting.
+        </p>
+        <p class="mt-4 text-rt-paper/85">
+          We can't fund every cause that asks &mdash; the demand always outstrips the budget.
+          We try to give every applicant a clear answer.
+        </p>
+        <div class="mt-6">
+          <Button href="mailto:charityball@jerseyroundtable.com" variant="primary">Start an application</Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 py-16 md:py-20">
+    <h2>Past beneficiaries</h2>
+    <p class="mt-3 text-rt-mute max-w-2xl">
+      A non-exhaustive list of Jersey causes funded by recent Charity Balls.
+    </p>
+
+    {grants.length === 0 ? (
+      <div class="mt-8">
+        <EmptyState
+          title="Past beneficiaries will be listed here."
+          description="We're collating the list from previous Charity Balls. In the meantime, get in touch if you want a feel for what we've funded."
+          ctaHref="/contact"
+          ctaLabel="Ask us"
+        />
+      </div>
+    ) : (
+      <div class="mt-10 space-y-12">
+        {years.map((year) => (
+          <div>
+            <h3 class="text-rt-navy">{year}</h3>
+            <div class="mt-4 grid md:grid-cols-2 gap-4">
+              {grantsByYear[year]!.map((g) => (
+                <Card>
+                  <p class="text-xs font-medium uppercase tracking-widest text-rt-sea">{g.data.cause}</p>
+                  <h4 class="mt-1 text-lg font-semibold text-rt-navy">{g.data.beneficiary}</h4>
+                  <p class="mt-2 text-rt-mute">{g.data.summary}</p>
+                </Card>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </section>
+</BaseLayout>

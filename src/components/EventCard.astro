@@ -1,0 +1,46 @@
+---
+interface Props {
+  title: string;
+  date: Date;
+  location: string;
+  href?: string;
+}
+const { title, date, location, href } = Astro.props;
+
+const day = date.toLocaleDateString('en-GB', { day: '2-digit' });
+const month = date.toLocaleDateString('en-GB', { month: 'short' });
+const iso = date.toISOString();
+
+const classes =
+  'flex gap-4 items-start rounded-(--radius-card) bg-white shadow-(--shadow-sm) p-5 no-underline text-rt-ink';
+const hoverClasses = href ? 'hover:shadow-(--shadow-md) transition-shadow' : '';
+---
+{href ? (
+  <a href={href} class={`${classes} ${hoverClasses}`}>
+    <time
+      datetime={iso}
+      class="flex flex-col items-center justify-center w-16 h-16 rounded-md bg-rt-navy text-rt-paper shrink-0"
+    >
+      <span class="text-xl font-semibold leading-none">{day}</span>
+      <span class="text-xs uppercase tracking-wide mt-1">{month}</span>
+    </time>
+    <div class="flex-1 min-w-0">
+      <h3 class="text-base font-semibold text-rt-navy">{title}</h3>
+      <p class="text-sm text-rt-mute mt-1">{location}</p>
+    </div>
+  </a>
+) : (
+  <article class={classes}>
+    <time
+      datetime={iso}
+      class="flex flex-col items-center justify-center w-16 h-16 rounded-md bg-rt-navy text-rt-paper shrink-0"
+    >
+      <span class="text-xl font-semibold leading-none">{day}</span>
+      <span class="text-xs uppercase tracking-wide mt-1">{month}</span>
+    </time>
+    <div class="flex-1 min-w-0">
+      <h3 class="text-base font-semibold text-rt-navy">{title}</h3>
+      <p class="text-sm text-rt-mute mt-1">{location}</p>
+    </div>
+  </article>
+)}

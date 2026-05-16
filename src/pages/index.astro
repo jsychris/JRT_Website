@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+---
+<BaseLayout title="Jersey Round Table — Service, fundraising and friendship since 1948">
+  <section class="mx-auto max-w-(--container-max) px-6 pt-16 pb-20 md:pt-24 md:pb-28">
+    <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">Established 1948</p>
+    <h1 class="mt-4 max-w-4xl">A group of ordinary Jerseymen, making an extraordinary difference.</h1>
+    <p class="mt-6 text-lg text-rt-ink max-w-2xl">
+      Jersey's chapter of Round Table — men aged 18 to 45 from every trade, raising funds for local causes,
+      restoring places that matter, and forming friendships that last a lifetime.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/join" variant="primary">Join us</Button>
+      <Button href="/what-we-do" variant="secondary">What we do</Button>
+    </div>
+  </section>
+
+  <section class="bg-rt-navy text-rt-paper py-16 md:py-20">
+    <div class="mx-auto max-w-(--container-max) px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+      <div>
+        <div class="text-4xl font-semibold">77</div>
+        <p class="mt-1 text-rt-paper/70 text-sm">Years on island</p>
+      </div>
+      <div>
+        <div class="text-4xl font-semibold">12</div>
+        <p class="mt-1 text-rt-paper/70 text-sm">Parishes the Santa float visits</p>
+      </div>
+      <div>
+        <div class="text-4xl font-semibold">500</div>
+        <p class="mt-1 text-rt-paper/70 text-sm">Charity Ball guests, annual</p>
+      </div>
+      <div>
+        <div class="text-4xl font-semibold">£TBC</div>
+        <p class="mt-1 text-rt-paper/70 text-sm">Raised for Jersey causes</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 py-16 md:py-20 grid md:grid-cols-3 gap-6">
+    <Card href="/join">
+      <h3>Thinking of joining?</h3>
+      <p class="mt-2 text-rt-mute">Who we are, what membership looks like, and how to come along.</p>
+    </Card>
+    <Card href="/grants">
+      <h3>Apply for a grant</h3>
+      <p class="mt-2 text-rt-mute">If you run or know a Jersey cause that needs support, here's how.</p>
+    </Card>
+    <Card href="/events">
+      <h3>Members</h3>
+      <p class="mt-2 text-rt-mute">Upcoming events, Tuesday meet-ups and fellowship trips.</p>
+    </Card>
+  </section>
+</BaseLayout>

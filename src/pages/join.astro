@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+---
+<BaseLayout
+  title="Join Jersey Round Table"
+  description="Thinking of joining? Here's what membership of Jersey Round Table looks like, who can join, and how to come along to a meeting."
+>
+  <section class="mx-auto max-w-(--container-max) px-6 pt-16 pb-12 md:pt-24">
+    <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">Join us</p>
+    <h1 class="mt-4 max-w-4xl">Lifelong friendships, new skills, and a way to give back.</h1>
+    <p class="mt-6 text-lg max-w-2xl">
+      If you're a man aged between 18 and 45 living in Jersey, you can join. There's no fancy
+      application process. Come to a meeting, see what we're about, and decide for yourself.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <Button href="/contact" variant="primary">Come to a meeting</Button>
+      <Button href="#faq" variant="secondary">Read the FAQ</Button>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 py-10">
+    <h2>Who joins?</h2>
+    <div class="mt-8 grid md:grid-cols-3 gap-6">
+      <Card>
+        <h3>The trades vary</h3>
+        <p class="mt-2 text-rt-mute">
+          IT, graphic design, farming, law, finance, hospitality, construction. We deliberately
+          don't all do the same thing for a living.
+        </p>
+      </Card>
+      <Card>
+        <h3>The ages vary</h3>
+        <p class="mt-2 text-rt-mute">
+          Eighteen to forty-five. New members are most often in their late twenties or early
+          thirties, but that's not a rule.
+        </p>
+      </Card>
+      <Card>
+        <h3>The motivations vary</h3>
+        <p class="mt-2 text-rt-mute">
+          Some come for the fundraising, some for the friendships, some because they want
+          something better than another night in. Most end up staying for all three.
+        </p>
+      </Card>
+    </div>
+  </section>
+
+  <section class="bg-rt-navy text-rt-paper py-16 md:py-20">
+    <div class="mx-auto max-w-(--container-max) px-6 grid md:grid-cols-2 gap-10 items-start">
+      <div>
+        <h2 class="text-rt-paper">What it actually looks like</h2>
+        <ul class="mt-4 space-y-3 text-rt-paper/85 list-none p-0">
+          <li>&middot;&nbsp; Meetings every other Tuesday evening</li>
+          <li>&middot;&nbsp; A flagship event roughly once a quarter</li>
+          <li>&middot;&nbsp; The Charity Ball and Santa float in late autumn / Christmas</li>
+          <li>&middot;&nbsp; An annual fellowship trip to a sister table (Switzerland, France, Sark)</li>
+          <li>&middot;&nbsp; Occasional environmental and community service days</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-rt-paper">What it costs</h2>
+        <p class="mt-4 text-rt-paper/85">
+          Annual subs cover RTBI national fees and chapter running costs. Most events have a
+          per-head cost (dinner, ball tickets); these are kept fair.
+        </p>
+        <p class="mt-4 text-rt-paper/85">
+          We'd rather you came to a meeting and asked us in person than read a number on a
+          website &mdash; so <a href="/contact" class="text-rt-yellow underline underline-offset-4">drop us a line</a> and we'll set that up.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="mx-auto max-w-(--container-max) px-6 py-16 md:py-20">
+    <h2>Common questions</h2>
+    <div class="mt-8 space-y-4 max-w-3xl">
+      <details class="rounded-(--radius-card) bg-white shadow-(--shadow-sm) p-6 group">
+        <summary class="font-semibold text-rt-navy cursor-pointer list-none flex justify-between items-center">
+          <span>Do I need to know anyone already in?</span>
+          <span aria-hidden="true" class="text-rt-mute group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="mt-3 text-rt-ink">
+          No. Plenty of members joined cold &mdash; they came to a meeting, met everyone, and
+          stayed. If you do know someone already in, even better.
+        </p>
+      </details>
+      <details class="rounded-(--radius-card) bg-white shadow-(--shadow-sm) p-6 group">
+        <summary class="font-semibold text-rt-navy cursor-pointer list-none flex justify-between items-center">
+          <span>Is it religious or political?</span>
+          <span aria-hidden="true" class="text-rt-mute group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="mt-3 text-rt-ink">
+          No to both. Round Table is explicitly non-political and non-religious. Members hold a
+          range of views and we keep meetings focused on the things we agree to do together.
+        </p>
+      </details>
+      <details class="rounded-(--radius-card) bg-white shadow-(--shadow-sm) p-6 group">
+        <summary class="font-semibold text-rt-navy cursor-pointer list-none flex justify-between items-center">
+          <span>What happens when I turn 45?</span>
+          <span aria-hidden="true" class="text-rt-mute group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="mt-3 text-rt-ink">
+          You become a Tabler emeritus, and most members roll into <strong>41 Club</strong>
+          &mdash; the post-Table fellowship for men over forty. Most of your friendships will
+          carry over.
+        </p>
+      </details>
+      <details class="rounded-(--radius-card) bg-white shadow-(--shadow-sm) p-6 group">
+        <summary class="font-semibold text-rt-navy cursor-pointer list-none flex justify-between items-center">
+          <span>Is it a big time commitment?</span>
+          <span aria-hidden="true" class="text-rt-mute group-open:rotate-45 transition-transform">+</span>
+        </summary>
+        <p class="mt-3 text-rt-ink">
+          You get out of it what you put in. Some members are active on every event; some come
+          to meetings and the big nights. Either is fine.
+        </p>
+      </details>
+    </div>
+  </section>
+</BaseLayout>

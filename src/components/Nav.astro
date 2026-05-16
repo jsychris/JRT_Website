@@ -1,0 +1,32 @@
+---
+const links = [
+  { href: '/about', label: 'About' },
+  { href: '/what-we-do', label: 'What we do' },
+  { href: '/events', label: 'Events' },
+  { href: '/join', label: 'Join us' },
+  { href: '/grants', label: 'Apply for a grant' },
+  { href: '/contact', label: 'Contact' },
+];
+---
+<header class="border-b border-black/5 bg-rt-paper/90 sticky top-0 z-40 backdrop-blur">
+  <nav class="mx-auto max-w-(--container-max) px-6 py-4 flex items-center justify-between" aria-label="Primary">
+    <a href="/" class="font-semibold text-rt-navy text-lg tracking-tight no-underline">
+      Jersey Round Table
+    </a>
+    <ul class="hidden md:flex items-center gap-6 text-sm m-0 p-0 list-none">
+      {links.map((l) => (
+        <li>
+          <a href={l.href} class="text-rt-ink hover:text-rt-navy underline-offset-4 hover:underline">
+            {l.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a
+      href="/join"
+      class="md:hidden inline-flex items-center justify-center rounded-md bg-rt-yellow text-rt-navy font-medium px-3 py-2 text-sm no-underline"
+    >
+      Join
+    </a>
+  </nav>
+</header>

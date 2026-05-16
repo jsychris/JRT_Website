@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import FormInput from '../components/FormInput.astro';
+---
+<BaseLayout
+  title="Contact Jersey Round Table"
+  description="Get in touch with Jersey Round Table — to come along to a meeting, ask about a grant, or speak to us about the Charity Ball."
+>
+  <section class="mx-auto max-w-(--container-max) px-6 pt-16 pb-12 md:pt-24">
+    <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">Contact</p>
+    <h1 class="mt-4 max-w-4xl">Drop us a line.</h1>
+    <p class="mt-6 text-lg max-w-2xl">
+      Whether you're thinking of joining, applying for a grant, or asking about the Charity
+      Ball &mdash; we'll come back to you within a few days.
+    </p>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 pb-20 grid md:grid-cols-5 gap-10">
+    <form
+      action="/api/contact"
+      method="POST"
+      class="md:col-span-3 rounded-(--radius-card) bg-white shadow-(--shadow-sm) p-6 md:p-8 space-y-5"
+    >
+      <FormInput name="name" label="Your name" autocomplete="name" required />
+      <FormInput name="email" label="Email address" type="email" autocomplete="email" required />
+      <FormInput name="subject" label="Subject" required />
+
+      <div class="flex flex-col gap-1.5">
+        <label for="field-message" class="text-sm font-medium text-rt-ink">
+          Message<span aria-hidden="true" class="text-rt-sea ml-0.5">*</span>
+        </label>
+        <textarea
+          id="field-message"
+          name="message"
+          rows="6"
+          required
+          class="rounded-md border border-black/15 bg-white px-3 py-2 text-sm text-rt-ink outline-none focus-visible:ring-2 focus-visible:ring-rt-navy resize-y"
+        ></textarea>
+      </div>
+
+      <!-- Honeypot: a real user won't fill this; bots usually will -->
+      <div class="hidden" aria-hidden="true">
+        <label for="field-website">Website</label>
+        <input id="field-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <p class="text-xs text-rt-mute">
+        We use your details only to reply. We don't add you to any list. Read our
+        <a href="/privacy" class="underline underline-offset-4">privacy notice</a>.
+      </p>
+
+      <Button type="submit" variant="primary">Send message</Button>
+    </form>
+
+    <aside class="md:col-span-2 space-y-6">
+      <div class="rounded-(--radius-card) bg-rt-paper border border-black/5 p-6">
+        <h3>Charity Ball &amp; grants</h3>
+        <p class="mt-2 text-rt-mute">
+          For grant applications, sponsorship, or table bookings:
+        </p>
+        <a href="mailto:charityball@jerseyroundtable.com" class="mt-3 inline-block text-rt-navy underline underline-offset-4 break-all">
+          charityball@jerseyroundtable.com
+        </a>
+      </div>
+      <div class="rounded-(--radius-card) bg-rt-paper border border-black/5 p-6">
+        <h3>General</h3>
+        <p class="mt-2 text-rt-mute">
+          Press, partnerships, or anything else:
+        </p>
+        <a href="mailto:andrew.woodward@jerseyroundtable.com" class="mt-3 inline-block text-rt-navy underline underline-offset-4 break-all">
+          andrew.woodward@jerseyroundtable.com
+        </a>
+      </div>
+      <div class="rounded-(--radius-card) bg-rt-paper border border-black/5 p-6">
+        <h3>Find us elsewhere</h3>
+        <ul class="mt-3 space-y-2 text-rt-navy list-none p-0">
+          <li><a href="https://www.facebook.com/jerseyroundtable/" rel="me noopener" class="underline underline-offset-4">Facebook</a></li>
+          <li><a href="https://www.instagram.com/jerseyroundtable/" rel="me noopener" class="underline underline-offset-4">Instagram</a></li>
+          <li><a href="https://x.com/JsyRoundTable" rel="me noopener" class="underline underline-offset-4">X / Twitter</a></li>
+        </ul>
+      </div>
+    </aside>
+  </section>
+</BaseLayout>

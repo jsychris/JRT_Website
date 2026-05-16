@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Card from '../components/Card.astro';
+---
+<BaseLayout
+  title="About Jersey Round Table — chartered 1948"
+  description="Jersey Round Table is the island chapter of Round Table GB&amp;I, chartered in 1948 by Brian Le Marquand. Men aged 18 to 45. Service, fundraising and friendship."
+>
+  <section class="mx-auto max-w-(--container-max) px-6 pt-16 pb-12 md:pt-24">
+    <p class="text-sm font-medium uppercase tracking-widest text-rt-sea">About</p>
+    <h1 class="mt-4 max-w-4xl">Seventy-seven years of service, fundraising and friendship.</h1>
+    <p class="mt-6 text-lg max-w-2xl">
+      Jersey Round Table was chartered in 1948, one year before our Guernsey neighbours and two
+      decades after the movement began in Norwich. The world has changed since &mdash; the
+      principles haven't.
+    </p>
+  </section>
+
+  <section class="bg-rt-navy text-rt-paper py-16 md:py-20">
+    <div class="mx-auto max-w-(--container-max) px-6 grid md:grid-cols-2 gap-12 items-start">
+      <div>
+        <h2 class="text-rt-paper">A Jerseyman who became national president</h2>
+        <p class="mt-4 text-rt-paper/80 max-w-prose">
+          The chapter was founded by <strong class="text-rt-paper">Brian Le Marquand</strong> and
+          a small group of close friends. Brian later became national president of Round Table
+          Great Britain &amp; Ireland &mdash; a notable honour for a chapter from a Crown
+          Dependency.
+        </p>
+        <p class="mt-4 text-rt-paper/80 max-w-prose">
+          He ran a horticultural supplies shop on the corner of Beresford Street and Cattle
+          Street in St Helier until his retirement in 1976.
+        </p>
+      </div>
+      <div>
+        <h2 class="text-rt-paper">The Round Table motto</h2>
+        <blockquote class="mt-4 text-xl leading-relaxed text-rt-paper/90 border-l-4 border-rt-yellow pl-6">
+          &ldquo;Adopt methods that have proved so sound in the past, adapt them to the changing
+          needs of the time, and wherever possible, improve them.&rdquo;
+        </blockquote>
+        <p class="mt-3 text-sm text-rt-paper/60">
+          &mdash; The Prince of Wales, 1927. The source of <em>Adopt, Adapt, Improve</em>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 py-16 md:py-20">
+    <h2>How we work</h2>
+    <div class="mt-8 grid md:grid-cols-3 gap-6">
+      <Card>
+        <h3>Men aged 18 to 45</h3>
+        <p class="mt-2 text-rt-mute">
+          Non-political, non-religious. Members come from every trade &mdash; IT, graphic design,
+          farming, law, entrepreneurship.
+        </p>
+      </Card>
+      <Card>
+        <h3>Tuesdays, every fortnight</h3>
+        <p class="mt-2 text-rt-mute">
+          A standing meeting that's part business, part social. Plus the occasional fellowship
+          trip to Switzerland, France or Sark.
+        </p>
+      </Card>
+      <Card>
+        <h3>Three rhythms</h3>
+        <p class="mt-2 text-rt-mute">
+          Community service, fundraising, and friendship. We try not to do any one of those
+          three at the expense of the others.
+        </p>
+      </Card>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-(--container-max) px-6 pb-20">
+    <h2>The Round Table family on island</h2>
+    <p class="mt-4 max-w-2xl">
+      Round Table is one of four sister clubs. Together they cover men, women, and post-Table
+      fellowship into later life.
+    </p>
+    <div class="mt-8 grid md:grid-cols-2 gap-4">
+      <Card>
+        <h3>Round Table</h3>
+        <p class="mt-1 text-sm text-rt-mute">Men 18&ndash;45 &middot; founded 1927</p>
+        <p class="mt-2">The original. You're here.</p>
+      </Card>
+      <Card>
+        <h3>Ladies' Circle</h3>
+        <p class="mt-1 text-sm text-rt-mute">Women 18&ndash;45 &middot; founded 1936</p>
+        <p class="mt-2">Open membership since 1993.</p>
+      </Card>
+      <Card>
+        <h3>41 Club</h3>
+        <p class="mt-1 text-sm text-rt-mute">Ex-Tablers, men 40+ &middot; founded 1945</p>
+        <p class="mt-2">Continuing fellowship after retiring from Round Table.</p>
+      </Card>
+      <Card>
+        <h3>Tangent</h3>
+        <p class="mt-1 text-sm text-rt-mute">Ex-Circlers</p>
+        <p class="mt-2">Continuing fellowship after retiring from Ladies' Circle.</p>
+      </Card>
+    </div>
+  </section>
+</BaseLayout>
