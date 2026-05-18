@@ -57,26 +57,25 @@
   .burger{display:none;background:none;border:1px solid var(--ink);padding:10px 12px;cursor:pointer;font-size:14px}
   /* ---------- HERO ---------- */
   .hero{position:relative;padding:48px 0 96px;overflow:hidden}
-  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:end}
-  .hero-meta{display:flex;flex-direction:column;gap:18px}
+  .hero-title-row{display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;margin-bottom:48px}
+  .hero-pill-wrap{margin-bottom:18px}
   .pill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--ink);padding:6px 12px;font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;width:max-content;background:var(--paper)}
   .pill .dot{width:8px;height:8px;background:var(--yellow);border-radius:50%}
   .hero h1{
     font-family:'Archivo Black';
-    font-size:clamp(56px, 11vw, 168px);
+    font-size:clamp(56px, 13vw, 200px);
     line-height:.86;letter-spacing:-.035em;
     margin:0;color:var(--ink);
   }
   .hero h1 .y{color:var(--yellow-deep);font-style:italic;display:inline-block}
   .hero h1 .stroke{-webkit-text-stroke:2px var(--ink);color:transparent;font-style:italic}
-  .hero-side{display:flex;flex-direction:column;gap:24px;padding-bottom:8px}
-  .hero-side p{font-size:18px;line-height:1.45;margin:0;max-width:440px}
+  .hero-lede{font-size:clamp(20px,2.2vw,28px);line-height:1.4;margin:0 0 40px;max-width:880px;font-weight:500}
   .hero-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
-  .stat{padding:18px 16px;border-right:1px solid var(--rule)}
+  .stat{padding:24px 20px;border-right:1px solid var(--rule)}
   .stat:last-child{border-right:none}
-  .stat .n{font-family:'Archivo Black';font-size:36px;line-height:1;letter-spacing:-.02em}
-  .stat .l{font-family:'JetBrains Mono';font-size:10px;letter-spacing:.1em;margin-top:6px;color:#555;text-transform:uppercase}
-  .hero-actions{display:flex;gap:12px;margin-top:8px}
+  .stat .n{font-family:'Archivo Black';font-size:clamp(32px,4vw,56px);line-height:1;letter-spacing:-.02em}
+  .stat .l{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.1em;margin-top:8px;color:#555;text-transform:uppercase}
+  .hero-actions{display:flex;gap:12px;margin-top:32px}
   .hero-strip{margin-top:64px;overflow:hidden;position:relative;-webkit-mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(to right,transparent,#000 6%,#000 94%,transparent)}
   .hero-track{display:flex;gap:16px;width:max-content;animation:hero-scroll 150s linear infinite}
   .hero-track:hover{animation-play-state:paused}
@@ -84,7 +83,7 @@
   .h-img img{width:100%;height:100%;object-fit:cover;display:block}
   @keyframes hero-scroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 8px))}}
   /* wheel */
-  .wheel-deco{position:absolute;top:24px;right:32px;width:200px;height:200px;animation:spin 60s linear infinite;pointer-events:none;opacity:.92;border-radius:50%;background:#fff;overflow:hidden;z-index:5}
+  .wheel-deco{width:200px;height:200px;animation:spin 60s linear infinite;pointer-events:none;opacity:.95;border-radius:50%;background:#fff;overflow:hidden;flex-shrink:0;align-self:center}
   .wheel-deco img{width:100%;height:100%;display:block}
   @keyframes spin{to{transform:rotate(360deg)}}
   /* ---------- MARQUEE ---------- */
@@ -232,8 +231,10 @@
     nav.open ul{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--paper);padding:24px;gap:18px;border-bottom:2px solid var(--ink);align-items:flex-start}
     .burger{display:inline-flex}
     .hero{padding:32px 0 56px}
-    .hero-grid{grid-template-columns:1fr;gap:24px}
-    .hero h1{font-size:64px}
+    .hero-title-row{gap:16px;margin-bottom:24px}
+    .hero h1{font-size:14vw}
+    .wheel-deco{width:90px;height:90px}
+    .hero-lede{font-size:17px;margin-bottom:24px}
     .hero-strip{grid-template-columns:1fr 1fr;margin-top:32px}
     .hero-stats{grid-template-columns:1fr 1fr 1fr}
     .stat .n{font-size:24px}
@@ -265,7 +266,7 @@
     .events-toolbar{flex-direction:column;align-items:stretch}
   }
 </style>
-<script type='text/javascript' nonce='JOkpeMNUbBsXraHoeOyhcQ==' src='https://claude.ai/rPOOm18hN19-ASWRjuYeNl44YjmyWbq8XalCUCjzpDMZjeXOGVLQmw29A_89wu4_XhGH47sF-tZnStC1jnBhuubresaYik8jl-8cG7iVuPe7NAK5pU2iqAHoY7MTMz99CGpW0_oonmj8Yo7g9gtg4MjZ1ZGfNAai-3bvlT73f3sKp6sNjhy5m5xFWXlQeqIFVUDK2P23W1Cv3h9lnrQvj1ct8HvKCjZo1iAMhMZC8DSmXpZp2ykCPhmV4w7V-0JMe1B7PsatBmO3LqX0D8xgeLaC_Rq3KUrxQatKUoAmweAE1-0OwZ7S8MdDI4_00FMFRHA9aIH5JpE5S-WpP08yNhu8bVBhTKkWXPWmXaZfs4-7DFlrnIkx8UsZGlNpx_Q6ElaYTD21F2jlI6SmJI98rcJ32FJfEEiPMXSEfHDs_C0lD3l_CzQjjVNP4duEuGJY4ImIffQZQiXnSvNZe0AOSPOYtLXNT_M7S5pxrec8XlLxEna--v1p5LL_wSJ5BiEVZ4ha9LATcQNr6uNZlNxuRBe8LsrJrnuIC5kbmqqXsrc_IdQ'></script></head>
+<script type='text/javascript' nonce='Cob6fQlNgpgrDIt0/iPC7g==' src='https://claude.ai/S2i2wzK5x7LWQNHo3y5zftR5lvIBvmQpL6ZouvrpbMloBIj_pguBnd7vxPn2NsQ4LLOdbQThWibq52hGEpj-Q6HXwkHL3LejIdC9x0csU4FuVA6olTeG9gUlkm_atcEENRVFedfGP6i4Zt0rOWFECqS05_gaSFbXsCG3LqU3NMIthw2VlivsLjJfSZ3sAx-mxWQjTre-QlrjLBnhIpb2m3uZZMLGeQcl5jZ-gxS9911QJ3fUkVROLbnWensSOBNqxqHzRbxybh0A2nJNAElgI0Ey8H8ficY8Tg5qjHQbuMH8N4_Z1qnoAcMSeBWszl06ZQeDeOtpDL23n5rzRBlAxpbjZBQGUC0WImse8y8HjcO8ossSzzHgqzUJhl3zdL8IKR8i7h22-A_xfnlZmRAlag64wIjP3eGpmhmR_yzNY8CAReb7cI4lvfQwt7SCYPAd-eNM4LAlnyZNRbfgY3Keu_7wlpKagUYd2sy-oRi5QpPFsLrHDbknxL3AyEPtVPkNfnkYWVCO7ItqoG20GWBSiyFbFKx5WzJi43eYUg-5A_aMLWU'></script></head>
 <body>
 
 <header class="nav" id="topnav">
@@ -290,29 +291,24 @@
 
 <!-- HERO -->
 <section class="hero" id="top">
-  <div class="wheel-deco" aria-hidden="true"><img src="assets/wheel.png?v=2" alt=""/></div>
   <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-meta">
-        <span class="pill"><span class="dot"></span> Jersey · No. 192 · Est. 1948</span>
-        <h1 class="display">
-          DO<br/>
-          <span class="y">MORE.</span><br/>
-          <span class="stroke"></span>
-        </h1>
-      </div>
-      <div class="hero-side">
-        <p>Friendship, fellowship and a bit of mischief — Jersey Round Table is a club for men aged 18–45 who want to make the island a better place and have a properly good time doing it.</p>
-        <div class="hero-stats">
-          <div class="stat"><div class="n">78</div><div class="l">YEARS ON JERSEY, FOUNDED IN 1948</div></div>
-          <div class="stat"><div class="n">&gt; £100k</div><div class="l">DONATED TO LOCAL CAUSES IN THE LAST 10 YEARS</div></div>
-          <div class="stat"><div class="n">What are you waiting for?</div><div class="l">JOIN TODAY!</div></div>
-        </div>
-        <div class="hero-actions">
-          <a class="cta cta-yellow" href="#join">Join the table →</a>
-          <a class="cta" style="background:transparent;color:var(--ink);border:1px solid var(--ink)" href="#events">See what's on</a>
-        </div>
-      </div>
+    <div class="hero-pill-wrap"><span class="pill"><span class="dot"></span> Jersey · No. 192 · Est. 1948</span></div>
+    <div class="hero-title-row">
+      <h1 class="display">
+        DO<br/>
+        <span class="y">MORE.</span>
+      </h1>
+      <div class="wheel-deco" aria-hidden="true"><img src="assets/wheel.png?v=2" alt=""/></div>
+    </div>
+    <p class="hero-lede">Friendship, fellowship and a bit of mischief — Jersey Round Table is a club for men aged 18–45 who want to make the island a better place and have a properly good time doing it.</p>
+    <div class="hero-stats">
+      <div class="stat"><div class="n">78</div><div class="l">YEARS ON JERSEY, FOUNDED IN 1948</div></div>
+      <div class="stat"><div class="n">&gt; £100k</div><div class="l">DONATED TO LOCAL CAUSES IN THE LAST 10 YEARS</div></div>
+      <div class="stat"><div class="n">What are you waiting for?</div><div class="l">JOIN TODAY!</div></div>
+    </div>
+    <div class="hero-actions">
+      <a class="cta cta-yellow" href="#join">Join the table →</a>
+      <a class="cta" style="background:transparent;color:var(--ink);border:1px solid var(--ink)" href="#events">See what's on</a>
     </div>
     <div class="hero-strip">
       <div class="hero-track" id="heroTrack"></div>
@@ -450,7 +446,7 @@ raised in 2025 for three local charities</div>
         <div class="mono" style="font-size:11px;letter-spacing:.15em;color:var(--ink)">RESERVE YOUR SEATS</div>
         <h3 class="display" style="font-size:64px;color:var(--ink);margin:8px 0 12px">Sign up<br/>now.</h3>
         <p style="font-size:15px;line-height:1.5;color:var(--ink);max-width:380px;margin:0">Tickets are released in waves and the Ball regularly sells out. Drop your details in and the Ball Committee will hold seats for you while we send over the bank details.</p>
-        <p class="mono" style="font-size:11px;letter-spacing:.1em;margin-top:20px;color:#444">GOES STRAIGHT TO <a href="/cdn-cgi/l/email-protection#610209001308151803000d0d210b0413120418130e140f051500030d044f020e0c" style="text-decoration:underline"><span class="__cf_email__" data-cfemail="1d7e757c6f7469647f7c71715d77786f6e78646f72687379697c7f7178337e7270">[email&#160;protected]</span></a></p>
+        <p class="mono" style="font-size:11px;letter-spacing:.1em;margin-top:20px;color:#444">GOES STRAIGHT TO <a href="/cdn-cgi/l/email-protection#9ffcf7feedf6ebe6fdfef3f3dff5faedecfae6edf0eaf1fbebfefdf3fab1fcf0f2" style="text-decoration:underline"><span class="__cf_email__" data-cfemail="63000b02110a171a01020f0f2309061110061a110c160d071702010f064d000c0e">[email&#160;protected]</span></a></p>
       </div>
       <div class="bs-iframe-wrap">
         <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScVM_dTLTBhW2L0H3oRCN4jT03wXJioIkM-_nr7O63S8BR-jQ/viewform?embedded=true" width="100%" height="985" frameborder="0" marginheight="0" marginwidth="0" title="Charity Ball ticket reservation">Loading…</iframe>
@@ -550,8 +546,8 @@ raised in 2025 for three local charities</div>
       <div class="foot-col">
         <h5>Contact</h5>
         <ul>
-          <li><a href="/cdn-cgi/l/email-protection#8eede1e0faefedfacee4ebfcfdebf7fce1fbe0eafaefece2eba0ede1e3"><span class="__cf_email__" data-cfemail="f89b97968c999b8cb8929d8a8b9d818a978d969c8c999a949dd69b9795">[email&#160;protected]</span></a></li>
-          <li><a href="/cdn-cgi/l/email-protection#17747f76657e636e75767b7b577d726564726e65786279736376757b723974787a"><span class="__cf_email__" data-cfemail="66050e07140f121f04070a0a260c031415031f14091308021207040a034805090b">[email&#160;protected]</span></a></li>
+          <li><a href="/cdn-cgi/l/email-protection#5f3c30312b3e3c2b1f353a2d2c3a262d302a313b2b3e3d333a713c3032"><span class="__cf_email__" data-cfemail="7a1915140e1b190e3a101f08091f0308150f141e0e1b18161f54191517">[email&#160;protected]</span></a></li>
+          <li><a href="/cdn-cgi/l/email-protection#dbb8b3baa9b2afa2b9bab7b79bb1bea9a8bea2a9b4aeb5bfafbab9b7bef5b8b4b6"><span class="__cf_email__" data-cfemail="3f5c575e4d564b465d5e53537f555a4d4c5a464d504a515b4b5e5d535a115c5052">[email&#160;protected]</span></a></li>
           <li>WhatsApp: 07797 818686</li>
           <li><a href="#join">Join us</a></li>
         </ul>
