@@ -84,7 +84,7 @@
   .h-img img{width:100%;height:100%;object-fit:cover;display:block}
   @keyframes hero-scroll{from{transform:translateX(0)}to{transform:translateX(calc(-50% - 8px))}}
   /* wheel */
-  .wheel-deco{position:absolute;top:48px;right:-80px;width:340px;height:340px;animation:spin 60s linear infinite;pointer-events:none;opacity:.92;border-radius:50%;background:#fff;overflow:hidden}
+  .wheel-deco{position:absolute;top:24px;right:32px;width:200px;height:200px;animation:spin 60s linear infinite;pointer-events:none;opacity:.92;border-radius:50%;background:#fff;overflow:hidden;z-index:5}
   .wheel-deco img{width:100%;height:100%;display:block}
   @keyframes spin{to{transform:rotate(360deg)}}
   /* ---------- MARQUEE ---------- */
@@ -151,6 +151,22 @@
   .figure-row:last-child{border-bottom:none}
   .figure-n{font-family:'Archivo Black';font-size:84px;line-height:.9;letter-spacing:-.03em;color:var(--yellow)}
   .figure-l{font-size:15px;color:#ccc;margin-top:8px;line-height:1.4}
+  /* ball ticket sign-up */
+  .ball-signup{margin-top:80px;background:var(--yellow);color:var(--ink);padding:56px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:start;border:2px solid var(--ink);position:relative}
+  .ball-signup::after{content:"";position:absolute;inset:8px;border:1px dashed var(--ink);pointer-events:none}
+  .bs-left{position:relative;z-index:1}
+  .bs-left a{color:var(--ink)}
+  .bs-form{position:relative;z-index:1;display:flex;flex-direction:column;gap:14px}
+  .bs-field label{display:block;font-family:'JetBrains Mono';font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:#5a3f00;margin-bottom:6px}
+  .bs-field input,.bs-field select{width:100%;background:transparent;border:none;border-bottom:1.5px solid var(--ink);color:var(--ink);font-family:'Archivo';font-size:15px;padding:8px 0;outline:none;transition:border-color .15s}
+  .bs-field input::placeholder{color:#7a5500}
+  .bs-field input:focus,.bs-field select:focus{border-bottom-color:var(--red)}
+  .bs-field select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,var(--ink) 50%),linear-gradient(135deg,var(--ink) 50%,transparent 50%);background-position:calc(100% - 14px) 50%,calc(100% - 8px) 50%;background-size:6px 6px,6px 6px;background-repeat:no-repeat;padding-right:24px}
+  .bs-submit{margin-top:8px;background:var(--ink);color:var(--yellow);border:none;padding:18px;font-family:'Archivo Black';font-size:14px;letter-spacing:.05em;cursor:pointer;text-transform:uppercase;transition:background .15s}
+  .bs-submit:hover{background:var(--red);color:var(--paper)}
+  .bs-success{background:var(--ink);color:var(--yellow);padding:32px;border:2px solid var(--ink);font-size:15px;line-height:1.5;grid-column:1/-1}
+  .bs-iframe-wrap{position:relative;z-index:1;background:#fff;padding:8px;border:1.5px solid var(--ink);min-height:985px;overflow:hidden}
+  .bs-iframe-wrap iframe{display:block;width:100%;border:0;background:#fff}
   /* ---------- GALLERY CAROUSEL ---------- */
   .gallery-wrap{position:relative;margin:0 -32px;overflow-x:auto;overflow-y:hidden;scroll-behavior:smooth;scrollbar-width:none;-webkit-mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent);mask-image:linear-gradient(to right,transparent,#000 3%,#000 97%,transparent)}
   .gallery-wrap::-webkit-scrollbar{display:none}
@@ -235,6 +251,8 @@
     .ball-card{padding:32px}
     .ball-card h3{font-size:48px}
     .figure-n{font-size:60px}
+    .ball-signup{grid-template-columns:1fr;padding:32px;gap:32px;margin-top:48px}
+    .ball-signup .bs-left h3.display{font-size:44px !important}
     .gallery-wrap{margin:0 -20px}
     .gallery-track{padding:0 20px}
     .g-tile{width:280px;height:220px}
@@ -247,7 +265,7 @@
     .events-toolbar{flex-direction:column;align-items:stretch}
   }
 </style>
-<script type='text/javascript' nonce='QOQTVI0IXtMm7s1M1skufg==' src='https://claude.ai/rXnxHbWMMy43ggxNphlrzInuXJZAvTcuKu_9L-DV3_dtBzdqbBQfclws4bbbKHbTdAO6PXqZs-cJV7LK105CCyCzP9Cxz1ZyTAJPxn-YCmmefwhiA77DO5IcMvN-dOMhiS6xBuo-6h4n7xsQnPYSogI217arIy-KlKXowhHTWSG2It69DDOGEZMHg4Sc3IJLtktiTPUMiXPHtz8GyfW3eAdxpqZlIPZW4OF9GvxvvKLFgm7lJFCH4vbAQ7CoNIfszGHUVEKYet896rAM46oFSiCrGK0digHRKmEmGPbAxT5oQQZk_D8-WOT9zrga5I6Kk9oKVGFxw3LIxPT8qNS3Nq9mWG6HEOZ6W82SEixjMa5F8h6TI5s7R8mv8BX1iBXiGFjbvBlXBG1gNbDBvfDM5SihwpBpqFWczIljhL9AZlxWgkMxnbneYjCJJlp1P2pgHQFMY-mt1cgXBXk9iv8YB9GKcIeNYzIkb6Tx1sieEYF6byfVjRqsHavdOlmqsyrpwSyrXVgeAUohviSWiAbLbPfm57_rraK1QbmAnlQ0KPZp7Rs'></script></head>
+<script type='text/javascript' nonce='JOkpeMNUbBsXraHoeOyhcQ==' src='https://claude.ai/rPOOm18hN19-ASWRjuYeNl44YjmyWbq8XalCUCjzpDMZjeXOGVLQmw29A_89wu4_XhGH47sF-tZnStC1jnBhuubresaYik8jl-8cG7iVuPe7NAK5pU2iqAHoY7MTMz99CGpW0_oonmj8Yo7g9gtg4MjZ1ZGfNAai-3bvlT73f3sKp6sNjhy5m5xFWXlQeqIFVUDK2P23W1Cv3h9lnrQvj1ct8HvKCjZo1iAMhMZC8DSmXpZp2ykCPhmV4w7V-0JMe1B7PsatBmO3LqX0D8xgeLaC_Rq3KUrxQatKUoAmweAE1-0OwZ7S8MdDI4_00FMFRHA9aIH5JpE5S-WpP08yNhu8bVBhTKkWXPWmXaZfs4-7DFlrnIkx8UsZGlNpx_Q6ElaYTD21F2jlI6SmJI98rcJ32FJfEEiPMXSEfHDs_C0lD3l_CzQjjVNP4duEuGJY4ImIffQZQiXnSvNZe0AOSPOYtLXNT_M7S5pxrec8XlLxEna--v1p5LL_wSJ5BiEVZ4ha9LATcQNr6uNZlNxuRBe8LsrJrnuIC5kbmqqXsrc_IdQ'></script></head>
 <body>
 
 <header class="nav" id="topnav">
@@ -403,7 +421,7 @@ adopt, adapt, improve.</h2>
       <div class="ball-card">
         <div class="mono">Save the date · Black tie</div>
         <h3>The 2026<br/>Charity Ball</h3>
-        <p style="font-size:16px;line-height:1.55;margin:0">A black-tie sit-down for 400&ndash;500 at the RJA &amp; HS Royal Jersey Showground. Live band, the famous Charity Ball show (written, produced and 'acted' by the Tablers themselves. Long-time headline sponsor: <strong>warm.je</strong>.</p>
+        <p style="font-size:16px;line-height:1.55;margin:0">A black-tie sit-down for over 400 guests at the Royal Jersey Showground. Drinks, 3-course dinner, Live band and the infamous Charity Ball show (written, produced and 'acted' by the Tablers themselves).  Long-time headline sponsor: warm.je.</p>
         <div class="meta">
           <div><strong>SAT 28 NOV</strong>2026 &middot; 7pm</div>
           <div>&gt;£20,000
@@ -412,7 +430,7 @@ raised in 2025 for three local charities</div>
       </div>
       <div class="ball-figures">
         <div class="figure-row">
-          <div class="figure-n">400</div>
+          <div class="figure-n">400+</div>
           <div class="figure-l">guests at the RJA&amp;HS every year</div>
         </div>
         <div class="figure-row">
@@ -423,6 +441,19 @@ raised in 2025 for three local charities</div>
           <div class="figure-n">7</div>
           <div class="figure-l">months of planning by the Ball Committee. It runs like clockwork.</div>
         </div>
+      </div>
+    </div>
+
+    <!-- BALL TICKET RESERVATION -->
+    <div class="ball-signup" id="ballSignup">
+      <div class="bs-left">
+        <div class="mono" style="font-size:11px;letter-spacing:.15em;color:var(--ink)">RESERVE YOUR SEATS</div>
+        <h3 class="display" style="font-size:64px;color:var(--ink);margin:8px 0 12px">Sign up<br/>now.</h3>
+        <p style="font-size:15px;line-height:1.5;color:var(--ink);max-width:380px;margin:0">Tickets are released in waves and the Ball regularly sells out. Drop your details in and the Ball Committee will hold seats for you while we send over the bank details.</p>
+        <p class="mono" style="font-size:11px;letter-spacing:.1em;margin-top:20px;color:#444">GOES STRAIGHT TO <a href="/cdn-cgi/l/email-protection#610209001308151803000d0d210b0413120418130e140f051500030d044f020e0c" style="text-decoration:underline"><span class="__cf_email__" data-cfemail="1d7e757c6f7469647f7c71715d77786f6e78646f72687379697c7f7178337e7270">[email&#160;protected]</span></a></p>
+      </div>
+      <div class="bs-iframe-wrap">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLScVM_dTLTBhW2L0H3oRCN4jT03wXJioIkM-_nr7O63S8BR-jQ/viewform?embedded=true" width="100%" height="985" frameborder="0" marginheight="0" marginwidth="0" title="Charity Ball ticket reservation">Loading…</iframe>
       </div>
     </div>
   </div>
@@ -519,8 +550,8 @@ raised in 2025 for three local charities</div>
       <div class="foot-col">
         <h5>Contact</h5>
         <ul>
-          <li><a href="/cdn-cgi/l/email-protection#e5868a8b91848691a58f809796809c978a908b819184878980cb868a88"><span class="__cf_email__" data-cfemail="1774787963767463577d726564726e65786279736376757b723974787a">[email&#160;protected]</span></a></li>
-          <li><a href="/cdn-cgi/l/email-protection#95f6fdf4e7fce1ecf7f4f9f9d5fff0e7e6f0ece7fae0fbf1e1f4f7f9f0bbf6faf8"><span class="__cf_email__" data-cfemail="55363d34273c212c37343939153f302726302c273a203b3121343739307b363a38">[email&#160;protected]</span></a></li>
+          <li><a href="/cdn-cgi/l/email-protection#8eede1e0faefedfacee4ebfcfdebf7fce1fbe0eafaefece2eba0ede1e3"><span class="__cf_email__" data-cfemail="f89b97968c999b8cb8929d8a8b9d818a978d969c8c999a949dd69b9795">[email&#160;protected]</span></a></li>
+          <li><a href="/cdn-cgi/l/email-protection#17747f76657e636e75767b7b577d726564726e65786279736376757b723974787a"><span class="__cf_email__" data-cfemail="66050e07140f121f04070a0a260c031415031f14091308021207040a034805090b">[email&#160;protected]</span></a></li>
           <li>WhatsApp: 07797 818686</li>
           <li><a href="#join">Join us</a></li>
         </ul>
@@ -688,7 +719,7 @@ const GALLERY = [
 // ----- EVENTS DATA -----
 const EVENTS = [
   // ----- UPCOMING (2026/27 planner) -----
-  {date:'2026-05-26', label:'26 MAY', dow:'TUE', title:'Environmental action', tag:'CHARITY', body:'Boots-on-the-ground service night \u2014 a clean-up, planting or supporting one of our fellow service clubs. Marcus has it sorted.', loc:'Across the island · 7pm'},
+  {date:'2026-05-26', label:'26 MAY', dow:'TUE', title:'Cycle to St Aubins for dinner', body:'Pedal the prom from town to St Aubin, dinner waiting at the other end. Bring lights and an appetite.', loc:'St Helier → St Aubin · 6.30pm'},
   {date:'2026-06-09', label:'09 JUN', dow:'TUE', title:'Sports night \u2014 Sea Swim', body:'Summer kicks off in the water. Mixed pace, beach pint after. Bring a towel and a guest.', loc:'Havre des Pas · 7pm'},
   {date:'2026-06-13', label:'13 JUN', dow:'SAT', title:'French Trip', tag:'PARTNERS', body:'Two-day jolly off the rock with partners \u2014 ferry over Saturday, back Sunday.', loc:'St-Malo &amp; the Bay'},
   {date:'2026-06-23', label:'23 JUN', dow:'TUE', title:'Business meeting', body:'Standing meeting \u2014 committee reports, plans, and a pint. Guests welcome.', loc:'Clubhouse · 7pm'},
@@ -725,7 +756,6 @@ const EVENTS = [
   {date:'2026-05-09', label:'09 MAY', dow:'SAT', title:'Liberation Day · UK RTBI AGM', tag:'PAST', body:'Twin headers \u2014 Liberation Day on the rock and the UK Round Table AGM elsewhere.', loc:'St Helier & UK', past:true},
   {date:'2026-04-28', label:'28 APR', dow:'TUE', title:'AGM 2026', tag:'PAST', body:'Officers in, last year\u2019s minutes signed, eyes on the next twelve months.', loc:'Clubhouse', past:true},
   {date:'2026-04-18', label:'18 APR', dow:'SAT', title:'Partners\u2019 Night', tag:'PAST', body:'Year-opener with the people who put up with all this. A very good evening.', loc:'St Helier', past:true},
-  {date:'2026-04-14', label:'14 APR', dow:'TUE', title:'Dodgeball + AT Talk', tag:'PAST', body:'Soft balls, hard talk \u2014 a visit from our Area Tabler followed by some athletic humiliation.', loc:'Clubhouse', past:true},
   {date:'2025-11-23', label:'23 NOV', dow:'SAT', title:'Charity Ball 2025', tag:'PAST', body:'400 guests, £20,418 raised for Brighter Futures, Jersey Hospice and Headway.', loc:'Pomme d\u2019Or Hotel', past:true},
   {date:'2025-12-19', label:'19 DEC', dow:'FRI', title:'Christmas Sleigh Tour', tag:'PAST', body:'Three weeks, every parish, one very real beard. £8k raised at the doorstep.', loc:'Around the island', past:true},
 ];
@@ -860,7 +890,24 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
   });
 });
 
-// ----- FORM -----
+document.getElementById('ballForm')?.addEventListener('submit',e=>{
+  e.preventDefault();
+  const f = e.target;
+  const name = f.name.value.trim();
+  const email = f.email.value.trim();
+  const phone = f.phone.value.trim();
+  const tickets = f.tickets.value;
+  const subj = encodeURIComponent(`Charity Ball ticket reservation — ${name}`);
+  const body = encodeURIComponent(
+    `Hi Ball Committee,\n\nI'd like to reserve ${tickets} for the 2026 Charity Ball.\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nThanks!`
+  );
+  window.location.href = `mailto:charityball@jerseyroundtable.com?subject=${subj}&body=${body}`;
+  setTimeout(()=>{
+    const card = document.getElementById('ballSignup');
+    if(card) card.innerHTML = `<div class="bs-success"><strong style="font-family:'Archivo Black';font-size:22px;display:block;margin-bottom:8px;color:var(--yellow)">Your email client just opened.</strong>Hit send and the Ball Committee will hold ${tickets || 'your seats'} for you. If nothing happened, email <a href="mailto:charityball@jerseyroundtable.com" style="color:var(--yellow);text-decoration:underline">charityball@jerseyroundtable.com</a> directly with your name, phone and ticket count.</div>`;
+  }, 600);
+});
+
 document.getElementById('joinForm').addEventListener('submit',e=>{
   e.preventDefault();
   const card = e.target;
