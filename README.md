@@ -39,3 +39,9 @@ Use Node 24 or later. Run `npm ci`, set `DATA_DIRECTORY` to a disposable or pers
 The original site is preserved in branch `archive/pre-members-site-2026-09-07` at commit `3e0f0f62dd2d71a1f2f5600f22c882012c0a6602`. It includes the original HTML, assets, uploads and planner PDF. Prefer a Railway rollback to the previous known-good deployment if cutover fails. Keep the members database volume intact when rolling back; do not delete it.
 
 Until Railway storage and environment settings are confirmed, the replacement lives on branch `railway-members-site`. The live `main` branch stays unchanged.
+
+## Member photos
+
+Members → Club photos accepts still JPEG, PNG and WebP files up to 15 MB / 50 megapixels. The server auto-orients, strips metadata, limits the long edge to 1920 px, and encodes WebP at quality 80, reducing to 1600 px / quality 70 for outputs above 900 KB. A separate 480 px preview is stored; original uploads are discarded. Each final main image is capped at 1.5 MB. The shared photo library is capped at 1 GB / 1000 images with at most 20 pending uploads per member.
+
+All uploads, including administrator uploads, start pending. Only administrators can approve or reject. Pending/rejected files are accessible only to the uploader and administrators. Approved photos populate the homepage carousel; unpublishing/deleting removes public access immediately on subsequent requests. Existing open browser pages may retain already displayed images. Members may delete their own uploads; administrators may delete any photo. Deletion removes image files to reclaim space. Photos are stored alongside SQLite in the Railway volume at `/data/photos`; include both the database and this folder in backups. Automated backups remain unconfigured.
