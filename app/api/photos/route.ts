@@ -44,7 +44,7 @@ export async function POST(request:Request){
   if(form.getAll('photo').length!==1)return reply({error:'Send one photo per request.'},400);
   const file=form.get('photo');const caption=String(form.get('caption')||'').trim();
   if(!(file instanceof File)||!file.size||file.size>MAX_UPLOAD)return reply({error:'Choose a photo under 15 MB.'},400);
-  if(!caption||caption.length>180)return reply({error:'Add a caption of up to 180 characters.'},400);
+  if(caption.length>180)return reply({error:'Captions must be 180 characters or fewer.'},400);
   if(form.get('consent')!=='yes')return reply({error:'Confirm permission to share this photo publicly.'},400);
   const result=await optimisePhoto(Buffer.from(await file.arrayBuffer()));
   const path=photoPath(id);await mkdir(dirname(path),{recursive:true});await writeFile(path,result.image,{flag:'wx'});await writeFile(photoPath(id,true),result.thumbnail,{flag:'wx'});
