@@ -39,7 +39,22 @@ try{
  assert.ok(!(await(await fetch(base)).text()).includes('/api/photos/'+photo.id));
  assert.equal((await post('/api/photos',{id:photo.id,action:'delete'},member)).r.status,200);
  assert.equal((await fetch(base+'/api/photos/'+photo.id,{headers:{cookie:admin}})).status,404);
+ const memberDetails=await(await fetch(base+'/api/club',{headers:{cookie:member}})).json();const memberId=memberDetails.member.id;
+ const adminDetails=await(await fetch(base+'/api/club',{headers:{cookie:admin}})).json();const adminId=adminDetails.member.id;
+ assert.equal((await post('/api/club',{action:'promote-admin',id:memberId},member)).r.status,403);
+ assert.equal((await post('/api/club',{action:'promote-admin',id:memberId})).r.status,401);
+ assert.equal((await post('/api/club',{action:'membership',id:memberId,role:'blocked'},admin)).r.status,200);
+ assert.equal((await post('/api/club',{action:'promote-admin',id:memberId},admin)).r.status,409);
+ assert.equal((await post('/api/club',{action:'membership',id:memberId,role:'member'},admin)).r.status,200);
+ assert.equal((await post('/api/club',{action:'promote-admin',id:'missing-member'},admin)).r.status,409);
+ assert.equal((await post('/api/club',{action:'promote-admin',id:memberId},admin)).r.status,200);
+ const promoted=await(await fetch(base+'/api/club',{headers:{cookie:member}})).json();assert.equal(promoted.member.role,'admin');assert.ok(promoted.members.length>=2);
+ assert.equal((await post('/api/club',{action:'invite',email:'another@example.test'},member)).r.status,200);
+ assert.equal((await post('/api/club',{action:'membership',id:adminId,role:'blocked'},admin)).r.status,400);
+ await post('/api/club',{action:'membership',id:adminId,role:'blocked'},member);
+ assert.equal((await(await fetch(base+'/api/club',{headers:{cookie:admin}})).json()).member.role,'admin');
+ await stop();start();await ready();assert.equal((await(await fetch(base+'/api/club',{headers:{cookie:member}})).json()).member.role,'admin');
  const reset=await post('/api/club',{action:'invite',email:'member@example.test'},admin);const changed=await post('/api/auth',{action:'register',email:'member@example.test',name:'Member',password:'changed test passphrase',token:reset.data.invitePath.split('=')[1]});assert.equal(changed.r.status,200);assert.equal((await fetch(base+'/api/club',{headers:{cookie:member}})).status,401);
  const logout=await post('/api/auth',{action:'logout'},changed.cookie);assert.equal(logout.r.status,200);assert.equal((await fetch(base+'/api/club',{headers:{cookie:changed.cookie}})).status,401);
- console.log('Photo upload, compression, private review, approval, removal and restart checks passed. Production HTTP checks passed: setup, invitations, RSVP persistence, restart, password reset, logout and forged-header rejection.');
+ console.log('Administrator promotion and access protection checks passed. Photo upload, compression, private review, approval, removal and restart checks passed. Production HTTP checks passed: setup, invitations, RSVP persistence, restart, password reset, logout and forged-header rejection.');
 }finally{await stop();rmSync(dir,{recursive:true,force:true});}

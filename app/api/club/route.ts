@@ -14,6 +14,14 @@ if(p.action==='invite'){
  const token=randomToken();const d=database();d.prepare('DELETE FROM invitations WHERE email=? OR expires_at<=?').run(email,Date.now());d.prepare('INSERT INTO invitations VALUES (?,?,?,?)').run(tokenHash(token),email,Date.now()+7*24*60*60*1000,u.id);
  return reply({ok:true,invitePath:'/login#invite='+token});
 }
+if(p.action==='promote-admin'){
+ if(m.role!=='admin')return fail('Administrator access required.',403);
+ if(typeof p.id!=='string'||!p.id)return fail('Choose a member.');
+ if(p.id===u.id)return fail('You already have administrator access.');
+ const promoted=await db().prepare("UPDATE members SET role='admin' WHERE id=? AND role='member' RETURNING id").bind(p.id).first();
+ if(!promoted)return fail('Only an active club member can be made an administrator. Refresh the member list and try again.',409);
+ return reply({ok:true});
+}
 if(p.action==='membership'){if(m.role!=='admin')return fail('Administrator access required.',403);if(p.id===u.id)return fail('You cannot change your own administrator access.');if(!['member','blocked'].includes(p.role))return fail('Invalid membership status.');await db().prepare("UPDATE members SET role=? WHERE id=? AND role!='admin'").bind(p.role,p.id).run();return reply({ok:true});}
 if(p.action==='save-event'){
   if(m.role!=='admin')return fail('Administrator access required.',403);
