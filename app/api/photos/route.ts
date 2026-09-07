@@ -6,6 +6,7 @@ import {dirname} from 'node:path';
 import {randomUUID} from 'node:crypto';
 export const runtime='nodejs';
 export const dynamic='force-dynamic';
+const activeUploads=new Set<string>();
 const reply=(data:any,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 export async function GET(){
  const m=await currentAccount();if(!m||!['admin','member'].includes(m.role))return reply({error:'Please sign in with an active membership.'},401);
@@ -30,11 +31,17 @@ export async function POST(request:Request){
   return reply({ok:true});
  }
  const length=Number(request.headers.get('content-length'));if(length>MAX_UPLOAD+10000)return reply({error:'Choose a photo under 15 MB.'},413);
+ if(activeUploads.has(m.id)||activeUploads.size>=2)return reply({error:'Photo uploads are busy. Please retry shortly.'},429);
+ activeUploads.add(m.id);
  const id=randomUUID();let saved=false;
  try{
   const reader=request.body?.getReader();if(!reader)return reply({error:'Choose a photo.'},400);
   const chunks:Uint8Array[]=[];let size=0;while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>MAX_UPLOAD+10000){await reader.cancel();return reply({error:'Choose a photo under 15 MB.'},413);}chunks.push(value);}
   const form=await new Response(Buffer.concat(chunks),{headers:{'Content-Type':request.headers.get('content-type')||''}}).formData();
+  const uploadId=form.get('uploadId');
+  if(uploadId!==null&&(typeof uploadId!=='string'||! /^[a-f0-9-]{36}$/.test(uploadId)))return reply({error:'Invalid upload identifier.'},400);
+  if(uploadId&&d.prepare('SELECT id FROM photos WHERE member_id=? AND upload_id=?').get(m.id,uploadId))return reply({ok:true});
+  if(form.getAll('photo').length!==1)return reply({error:'Send one photo per request.'},400);
   const file=form.get('photo');const caption=String(form.get('caption')||'').trim();
   if(!(file instanceof File)||!file.size||file.size>MAX_UPLOAD)return reply({error:'Choose a photo under 15 MB.'},400);
   if(!caption||caption.length>180)return reply({error:'Add a caption of up to 180 characters.'},400);
@@ -44,12 +51,12 @@ export async function POST(request:Request){
   d.exec('BEGIN IMMEDIATE');try{
    const pending=d.prepare("SELECT COUNT(*) n FROM photos WHERE member_id=? AND status='pending'").get(m.id) as any;
    const usage=d.prepare('SELECT COALESCE(SUM(bytes),0) n,COUNT(*) count FROM photos').get() as any;
-   if(pending.n>=20)throw new Error('You already have 20 photos awaiting review.');
+   if(pending.n>=100)throw new Error('You already have 100 photos awaiting review.');
    if(usage.n+result.image.length+result.thumbnail.length>1024*1024*1024||usage.count>=1000)throw new Error('The photo library is full. Ask the administrator to remove some photos.');
-   d.prepare('INSERT INTO photos (id,member_id,caption,bytes,width,height,created_at) VALUES (?,?,?,?,?,?,?)').run(id,m.id,caption,result.image.length+result.thumbnail.length,result.width,result.height,new Date().toISOString());
+   d.prepare('INSERT INTO photos (id,member_id,caption,bytes,width,height,created_at,upload_id) VALUES (?,?,?,?,?,?,?,?)').run(id,m.id,caption,result.image.length+result.thumbnail.length,result.width,result.height,new Date().toISOString(),uploadId);
    d.exec('COMMIT');saved=true;
   }catch(e){d.exec('ROLLBACK');throw e;}
   return reply({ok:true});
  }catch(e:any){return reply({error:e.message?.includes('already have')||e.message?.includes('library is full')?e.message:'Unable to upload this photo. Use a still JPEG, PNG or WebP under 15 MB.'},400);}
- finally{if(!saved)await Promise.all([unlink(photoPath(id)).catch(()=>{}),unlink(photoPath(id,true)).catch(()=>{})]);}
+ finally{activeUploads.delete(m.id);if(!saved)await Promise.all([unlink(photoPath(id)).catch(()=>{}),unlink(photoPath(id,true)).catch(()=>{})]);}
 }
