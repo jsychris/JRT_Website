@@ -1,18 +1,21 @@
+import {audit} from '@/lib/audit.mjs';
+import {readJson,RequestError} from '@/lib/request.mjs';
 import {trustedOrigin} from '@/lib/origin';
 import {db,identity,member,allowed,setupValid} from '@/lib/club';
 import {normaliseQuestions, normaliseAnswers, readQuestions} from '@/lib/event-options';
 import {database} from '@/lib/database.mjs';
-import {randomToken,tokenHash} from '@/lib/account-core.mjs';
+import {randomToken,tokenHash,rateLimit} from '@/lib/account-core.mjs';
 export const dynamic='force-dynamic';
 const reply=(data:any,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store'}});
 const fail=(error:string,status=400)=>reply({error},status);
 export async function GET(request:Request){try{const u=await identity();if(!u)return fail('Please sign in.',401);const m=await member();const configured=!!(await db().prepare("SELECT value FROM settings WHERE key='admin_claimed'").first());if(!allowed(m))return reply({member:m,configured,events:[]});const events=(await db().prepare(m.role==='admin'?'SELECT * FROM events ORDER BY starts_at':"SELECT * FROM events WHERE status!='draft' ORDER BY starts_at").all()).results;const id=new URL(request.url).searchParams.get('event');let detail=null;if(id){const event=events.find((e:any)=>e.id===id);if(!event)return fail('Event not found.',404);const responses=(await db().prepare('SELECT r.member_id,r.response,r.guests,r.answers_json,r.event_revision,m.name FROM rsvps r JOIN members m ON m.id=r.member_id WHERE r.event_id=?').bind(id).all()).results;const comments=(await db().prepare('SELECT c.id,c.member_id,c.body,c.created,m.name FROM comments c JOIN members m ON m.id=c.member_id WHERE c.event_id=? ORDER BY c.created').bind(id).all()).results;detail={event,responses:responses.map((r:any)=>{const {answers_json,...summary}=r;return {...summary,...(m.role==='admin'||r.member_id===u.id?{answers:JSON.parse(answers_json)}:{})};}),comments};}const members=m.role==='admin'?(await db().prepare('SELECT id,email,name,role FROM members ORDER BY created DESC').all()).results:[];return reply({member:m,configured,events,detail,members});}catch(e){console.error('Club load failed',e);return fail('The club programme could not be loaded. Please try again.',503);}}
-export async function POST(request:Request){try{if(!trustedOrigin(request))return fail('Please use the form on this site.',403);const u=await identity();if(!u)return fail('Please sign in.',401);const raw=await request.text();if(raw.length>100000)return fail('This entry is too long.');let p:any;try{p=JSON.parse(raw);}catch{return fail('Invalid request.');}if(!p||typeof p!=='object'||Array.isArray(p))return fail('Invalid request.');const m=await member();const now=new Date().toISOString();const name=String(p.name||'').trim().slice(0,100);
+export async function POST(request:Request){try{if(!trustedOrigin(request))return fail('Please use the form on this site.',403);const u=await identity();if(!u)return fail('Please sign in.',401);const p=await readJson(request,100000);const m=await member();const now=new Date().toISOString();const name=String(p.name||'').trim().slice(0,100);
 if(!allowed(m))return fail('Club membership approval is required.',403);
 if(p.action==='invite'){
  if(m.role!=='admin')return fail('Administrator access required.',403);
  const email=String(p.email||'').trim().toLowerCase();if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)||email.length>254)return fail('Enter a valid email address.');
  const token=randomToken();const d=database();d.prepare('DELETE FROM invitations WHERE email=? OR expires_at<=?').run(email,Date.now());d.prepare('INSERT INTO invitations VALUES (?,?,?,?)').run(tokenHash(token),email,Date.now()+7*24*60*60*1000,u.id);
+ audit(u.id,'invite-or-reset',tokenHash(email));
  return reply({ok:true,invitePath:'/login#invite='+token});
 }
 if(p.action==='promote-admin'){
@@ -21,9 +24,22 @@ if(p.action==='promote-admin'){
  if(p.id===u.id)return fail('You already have administrator access.');
  const promoted=await db().prepare("UPDATE members SET role='admin' WHERE id=? AND role='member' RETURNING id").bind(p.id).first();
  if(!promoted)return fail('Only an active club member can be made an administrator. Refresh the member list and try again.',409);
+ audit(u.id,'promote-admin',p.id);
  return reply({ok:true});
 }
-if(p.action==='membership'){if(m.role!=='admin')return fail('Administrator access required.',403);if(p.id===u.id)return fail('You cannot change your own administrator access.');if(!['member','blocked'].includes(p.role))return fail('Invalid membership status.');await db().prepare("UPDATE members SET role=? WHERE id=? AND role!='admin'").bind(p.role,p.id).run();return reply({ok:true});}
+if(p.action==='revoke-admin'){
+ if(m.role!=='admin')return fail('Administrator access required.',403);
+ if(typeof p.id!=='string'||!p.id||p.id===u.id)return fail('Choose another administrator. Your own access must remain active.');
+ const d=database();d.exec('BEGIN IMMEDIATE');try{
+  const changed=d.prepare("UPDATE members SET role='member' WHERE id=? AND role='admin' RETURNING id").get(p.id);
+  if(!changed){d.exec('ROLLBACK');return fail('Administrator not found. Refresh the member list.',409);}
+  d.prepare('DELETE FROM sessions WHERE member_id=?').run(p.id);
+  d.prepare('DELETE FROM invitations WHERE email=(SELECT email FROM members WHERE id=?)').run(p.id);
+  audit(u.id,'revoke-admin',p.id);d.exec('COMMIT');
+ }catch(e){d.exec('ROLLBACK');throw e;}
+ return reply({ok:true});
+}
+if(p.action==='membership'){if(m.role!=='admin')return fail('Administrator access required.',403);if(p.id===u.id)return fail('You cannot change your own administrator access.');if(!['member','blocked'].includes(p.role))return fail('Invalid membership status.');await db().prepare("UPDATE members SET role=? WHERE id=? AND role!='admin'").bind(p.role,p.id).run();audit(u.id,'membership:'+p.role,String(p.id));return reply({ok:true});}
 if(p.action==='save-event'){
   if(m.role!=='admin')return fail('Administrator access required.',403);
   const e=p.event||{};const title=String(e.title||'').trim();const description=String(e.description||'').trim();const date=new Date(e.starts_at);
@@ -40,6 +56,7 @@ if(p.action==='save-event'){
   }else{
     await db().prepare('INSERT INTO events (title,description,starts_at,location,category,visibility,status,guests_allowed,cost_pence,options_json,id,created_by,created) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)').bind(...values,id,u.id,now).run();
   }
+  audit(u.id,'save-event',id);
   return reply({ok:true,id});
 }
 const event=await db().prepare("SELECT * FROM events WHERE id=?").bind(String(p.eventId||'')).first() as any;if(!event||event.status==='draft'&&m.role!=='admin')return fail('Event not found.',404);
@@ -56,4 +73,4 @@ if(p.action==='rsvp'){
   if(!saved)return fail('The event changed while you were responding. Reload and review it.',409);
   return reply({ok:true});
 }
-if(p.action==='comment'){const body=String(p.body||'').trim();if(!body||body.length>2000)return fail('Write a comment of 1–2,000 characters.');await db().prepare('INSERT INTO comments (id,event_id,member_id,body,created) VALUES (?,?,?,?,?)').bind(crypto.randomUUID(),event.id,u.id,body,now).run();return reply({ok:true});}return fail('Unknown action.');}catch(e){console.error('Club save failed',e);return fail('Your change could not be saved. Please try again.',503);}}
+if(p.action==='comment'){if(rateLimit('comment:'+u.id,30))return fail('Too many comments. Please try again later.',429);const body=String(p.body||'').trim();if(!body||body.length>2000)return fail('Write a comment of 1–2,000 characters.');await db().prepare('INSERT INTO comments (id,event_id,member_id,body,created) VALUES (?,?,?,?,?)').bind(crypto.randomUUID(),event.id,u.id,body,now).run();return reply({ok:true});}return fail('Unknown action.');}catch(e){if(e instanceof RequestError)return fail(e.message,e.status);console.error('Club save failed',e);return fail('Your change could not be saved. Please try again.',503);}}

@@ -20,7 +20,7 @@ export function normaliseQuestions(value: unknown): EventQuestion[] {
     if (!q || typeof q !== 'object') throw new Error('Check your event questions.');
     const id = String(q.id || '');
     const label = String(q.label || '').trim();
-    if (!/^[a-zA-Z0-9_-]{1,80}$/.test(id) || ids.has(id)) throw new Error('Question identifiers must be unique.');
+    if (!/^[a-zA-Z0-9_-]{1,80}$/.test(id) || ['__proto__','constructor','prototype'].includes(id) || ids.has(id)) throw new Error('Question identifiers must be unique.');
     ids.add(id);
     if (!label || label.length > 160) throw new Error('Give each question a label of up to 160 characters.');
     if (!['choice', 'text'].includes(q.type)) throw new Error('Choose a valid question type.');
