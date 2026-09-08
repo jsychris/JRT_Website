@@ -1,3 +1,4 @@
+import {trustedOrigin} from '@/lib/origin';
 import {currentAccount} from '@/lib/auth';
 import {database} from '@/lib/database.mjs';
 import {MAX_UPLOAD,optimisePhoto,photoPath} from '@/lib/photos.mjs';
@@ -14,7 +15,7 @@ export async function GET(){
  return reply({photos});
 }
 export async function POST(request:Request){
- if(request.headers.get('origin')!==new URL(process.env.APP_URL||request.url).origin)return reply({error:'Please use the form on this site.'},403);
+ if(!trustedOrigin(request))return reply({error:'Please use the form on this site.'},403);
  const m=await currentAccount();if(!m||!['admin','member'].includes(m.role))return reply({error:'Active membership required.'},401);
  const d=database();
  if(request.headers.get('content-type')?.startsWith('application/json')){

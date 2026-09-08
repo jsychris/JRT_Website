@@ -1,3 +1,4 @@
+import {trustedOrigin} from '@/lib/origin';
 import {NextResponse} from 'next/server';
 import {cookies} from 'next/headers';
 import {randomUUID} from 'node:crypto';
@@ -8,8 +9,7 @@ import {setupValid} from '@/lib/club';
 export const dynamic='force-dynamic';
 const error=(message:string,status=400)=>NextResponse.json({error:message},{status,headers:{'Cache-Control':'no-store'}});
 export async function POST(request:Request){try{
- const origin=request.headers.get('origin');const expected=process.env.APP_URL?new URL(process.env.APP_URL).origin:new URL(request.url).origin;
- if(origin!==expected)return error('Use the sign-in form on this website.',403);
+ if(!trustedOrigin(request))return error('Use the sign-in form on this website.',403);
  const text=await request.text();if(text.length>6000)return error('Request too large.');const p=JSON.parse(text);
  if(!p||typeof p!=='object')return error('Invalid request.');
  if(p.action==='logout'){clearSession((await cookies()).get(COOKIE)?.value);const r=NextResponse.json({ok:true});r.cookies.set(COOKIE,'',{path:'/',maxAge:0,httpOnly:true,secure:process.env.NODE_ENV==='production',sameSite:'lax'});return r;}
