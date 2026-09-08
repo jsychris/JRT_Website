@@ -77,3 +77,13 @@ Independently assess jsychris/JRT_Website, branch railway-members-site, at the l
 - [OWASP Password Storage Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html): scrypt work-factor guidance.
 
 Final local results: 20/20 tests passed; production build and standalone HTTP suite passed; npm audit returned 0 info/low/moderate/high/critical advisories; git diff --check passed.
+
+## Deployment verification
+
+Remediation commit: `046a7320bb6411373a9729045041c2b24f901424`.
+Railway deployment: `7b85004a-6069-4aac-8ece-2372caca9fef`, status SUCCESS.
+Runtime log confirms `Application runtime uid=1000` and Next.js 16.3.4 started successfully. Railway URL `/api/health` returned HTTP 200 with `{"status":"ok"}`; `/login` returned 200 with the nonce CSP, DENY frame policy and nosniff header. These production checks were read-only.
+
+The automated request to `https://jerseyroundtable.com/login` returned HTTP 403 from this environment. The response identified Cloudflare error 1010; do not interpret this as proof of either a working custom-domain sign-in or an application defect. The Railway service URL was verified separately.
+
+Rollback caution: once a member logs in, their stored password may upgrade to the versioned s2 format. The old baseline cannot verify that format. Prefer a forward fix; do not blindly redeploy the baseline after password upgrades. Preserve the database and its immutable applied migrations. Existing member passwords, bookings and photos were not reset during this work.
