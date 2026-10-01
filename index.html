@@ -150,6 +150,14 @@
   .figure-row:last-child{border-bottom:none}
   .figure-n{font-family:'Archivo Black';font-size:84px;line-height:.9;letter-spacing:-.03em;color:var(--yellow)}
   .figure-l{font-size:15px;color:#ccc;margin-top:8px;line-height:1.4}
+  /* ball poster */
+  .ball-poster{margin-top:80px;display:grid;grid-template-columns:minmax(0,420px) 1fr;gap:64px;align-items:center}
+  .ball-poster a.bp-img{display:block;border:2px solid var(--yellow);transition:transform .25s}
+  .ball-poster a.bp-img:hover{transform:translateY(-4px)}
+  .ball-poster img{display:block;width:100%;height:auto}
+  .bp-details{display:grid;grid-template-columns:1fr 1fr;gap:24px 32px;margin-top:32px}
+  .bp-details div{border-top:1px solid #333;padding-top:14px;font-size:14px;color:#ccc;line-height:1.4}
+  .bp-details strong{font-family:'Archivo Black';display:block;font-size:22px;color:var(--yellow);letter-spacing:-.01em;margin-bottom:4px}
   /* ball ticket sign-up */
   .ball-signup{margin-top:80px;background:var(--yellow);color:var(--ink);padding:56px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:start;border:2px solid var(--ink);position:relative}
   .ball-signup::after{content:"";position:absolute;inset:8px;border:1px dashed var(--ink);pointer-events:none}
@@ -254,6 +262,9 @@
     .ball-card{padding:32px}
     .ball-card h3{font-size:48px}
     .figure-n{font-size:60px}
+    .ball-poster{grid-template-columns:1fr;gap:32px;margin-top:48px}
+    .ball-poster a.bp-img{max-width:420px}
+    .ball-poster h3.display{font-size:40px !important}
     .ball-signup{grid-template-columns:1fr;padding:32px;gap:32px;margin-top:48px}
     .ball-signup .bs-left h3.display{font-size:44px !important}
     .gallery-wrap{margin:0 -20px}
@@ -421,7 +432,7 @@ adopt, adapt, improve.</h2>
         <h3>The 2026<br/>Charity Ball</h3>
         <p style="font-size:16px;line-height:1.55;margin:0">A black-tie sit-down for over 400 guests at the Royal Jersey Showground. Drinks, 3-course dinner, Live band and the infamous Charity Ball show (written, produced and 'acted' by the Tablers themselves).  Long-time headline sponsor: warm.je.</p>
         <div class="meta">
-          <div><strong>SAT 28 NOV</strong>2026 &middot; 7pm</div>
+          <div><strong>SAT 28 NOV</strong>2026 &middot; doors 6pm</div>
           <div>&gt;£20,000
 raised in 2025 for three local charities</div>
         </div>
@@ -438,6 +449,24 @@ raised in 2025 for three local charities</div>
         <div class="figure-row">
           <div class="figure-n">7</div>
           <div class="figure-l">months of planning by the Ball Committee. It runs like clockwork.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BALL POSTER -->
+    <div class="ball-poster">
+      <a class="bp-img" href="assets/charity-ball-2026-poster.jpg" target="_blank" rel="noopener" title="Open the full-size poster">
+        <img src="assets/charity-ball-2026-poster.jpg" alt="Charity Ball 2026 poster: 28 November 2026 at the Jersey Royal Showgrounds, hosted by the Jersey Round Table. Cabaret, dinner, raffle and live music. Tickets £115 per person, black tie, doors 18:00. Platinum sponsor warm. Supporting Les Amis, Sanctuary Trust, ADHD Jersey and Jersey Stroke Support." loading="lazy"/>
+      </a>
+      <div>
+        <div class="mono" style="font-size:11px;letter-spacing:.15em;color:#888">THE OFFICIAL POSTER</div>
+        <h3 class="display" style="font-size:56px;color:var(--paper);margin:8px 0 16px">Cabaret. Dinner.<br/><span style="color:var(--yellow)">Raffle. Live music.</span></h3>
+        <p style="font-size:16px;line-height:1.55;color:#ccc;margin:0;max-width:520px">Hosted by the Jersey Round Table at the Jersey Royal Showgrounds, with huge thanks to our platinum sponsor, warm. This year's Ball supports Les Amis, Sanctuary Trust, ADHD Jersey and Jersey Stroke Support.</p>
+        <div class="bp-details">
+          <div><strong>£115</strong>per person</div>
+          <div><strong>18:00</strong>doors open</div>
+          <div><strong>Black tie</strong>dress code</div>
+          <div><strong>4 charities</strong>supported this year</div>
         </div>
       </div>
     </div>
