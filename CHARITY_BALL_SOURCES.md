@@ -4,7 +4,7 @@ Researched 8 September 2026. Route: `/charity-ball`.
 
 ## 2026 event
 
-The organiser's poster and Facebook screenshot supplied by Christian confirm 28 November 2026, doors at 18:00, black tie, £115 per person, cabaret, dinner, raffle, live music, platinum sponsor warm, and beneficiaries Les Amis, ADHD Jersey, Jersey Stroke Support and Sanctuary Trust.
+The organiser's poster and Facebook screenshot supplied by Christian confirm 28 November 2026, doors at 18:00, black tie, £115 per person, cabaret, dinner, raffle, live music, platinum sponsor warm, and beneficiaries Les Amis, Jersey Stroke Support and Sanctuary Trust (poster updated October 2026).
 
 The screenshot's interest form is https://forms.cloud.microsoft/e/Zavp72UYnP. Its destination could not be inspected through the research browser. Links retain the exact supplied URL and are explicitly described as enquiries, with availability/payment to be confirmed by the team. No form is embedded, no personal details are collected by the new page, and no existing security policy is relaxed.
 
@@ -25,7 +25,6 @@ No reliable additional Gallery article or cumulative fundraising total was found
 ## 2026 charity descriptions
 
 - Les Amis: https://www.lesamis.org.je/ — learning disabilities, residential/domiciliary/respite support.
-- ADHD Jersey: https://www.adhd.je/ — support, resources, community, education and advocacy.
 - Jersey Stroke Support: https://www.jerseystroke.org.je/ and https://jerseygiving.je/donate/jersey-stroke-support — survivors/families, post-stroke reviews and awareness.
 - Sanctuary Trust: https://www.sanctuarytrust.org.je/ — accommodation and tailored support for men experiencing or at risk of homelessness.
 
